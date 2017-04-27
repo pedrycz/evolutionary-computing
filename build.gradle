@@ -1,0 +1,28 @@
+group 'evolutionary-computing'
+version '0.1-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'pl.edu.agh.toik.ec.MainApp'
+
+sourceCompatibility = 1.7
+
+// How to run: gradlew run -PappArgs="['pl/edu/agh/toik/ec/configuration/simple_configuration.xml'
+
+run {
+    if ( project.hasProperty("appArgs") ) {
+        args Eval.me(appArgs)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.springframework', name: 'spring-core', version: '4.3.8.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version: '4.3.8.RELEASE'
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
