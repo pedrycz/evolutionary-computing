@@ -1,13 +1,17 @@
 package pl.edu.agh.toik.ec.workers;
 
+import pl.edu.agh.toik.ec.topology.Topology;
+
 public class SimpleWorker implements Worker {
 
     private String name;
     private Integer steps;
+    private Topology topology;
 
-    public SimpleWorker(String name, Integer steps) {
+    public SimpleWorker(String name, Integer steps, Topology topology) {
         this.name = name;
         this.steps = steps;
+        this.topology = topology;
     }
 
     @Override

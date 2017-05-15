@@ -4,4 +4,7 @@ public interface Starter {
 
     void run();
 
+    // may be changed to appropriate message type
+    void notify(String message);
+
 }

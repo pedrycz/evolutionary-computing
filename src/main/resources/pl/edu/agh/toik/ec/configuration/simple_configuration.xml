@@ -6,23 +6,59 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <bean id="worker1" class="pl.edu.agh.toik.ec.workers.SimpleWorker">
-        <constructor-arg type="java.lang.String" index="0" value="worker1"/>
-        <constructor-arg type="java.lang.Integer" index="1" value="10"/>
+    <!-- Naming service -->
+
+    <bean id="namingService" class="pl.edu.agh.toik.ec.namingservice.NamingServiceImpl">
+        <constructor-arg type="int" index="0" value="3"/>
+        <constructor-arg type="int" index="1" value="10"/>
     </bean>
 
-    <bean id="worker2" class="pl.edu.agh.toik.ec.workers.SimpleWorker">
-        <constructor-arg type="java.lang.String" index="0" value="worker2"/>
-        <constructor-arg type="java.lang.Integer" index="1" value="5"/>
+
+    <!-- Properties -->
+
+    <bean id="properties" class="pl.edu.agh.toik.ec.properties.PropertiesImpl">
+        <constructor-arg>
+            <map>
+                <entry key="param1">
+                    <bean class="pl.edu.agh.toik.ec.properties.observation.Condition">
+                        <constructor-arg type="java.lang.String" value="${x > 5}"/>
+                    </bean>
+                </entry>
+                <entry key="param2">
+                    <bean class="pl.edu.agh.toik.ec.properties.observation.Interval">
+                        <constructor-arg type="int" value="5"/>
+                    </bean>
+                </entry>
+                <entry key="param3">
+                    <bean class="pl.edu.agh.toik.ec.properties.observation.EachUpdate"/>
+                </entry>
+            </map>
+        </constructor-arg>
     </bean>
+
+
+    <!-- Topology -->
+
+    <bean id="topology" class="pl.edu.agh.toik.ec.topology.TopologyServiceImpl">
+        <constructor-arg index="0" type="pl.edu.agh.toik.ec.topology.TopologyType" value="RING" />
+        <constructor-arg index="1" type="int" value="10" />
+    </bean>
+
+    <!-- Visualisation -->
+
+    <bean id="visualisation" class="pl.edu.agh.toik.ec.visualisation.VisualisationImpl"/>
+
+    <!-- Starter -->
 
     <bean id="starter" class="pl.edu.agh.toik.ec.starter.SimpleStarter">
-        <constructor-arg>
-            <list>
-                <ref bean="worker1"/>
-                <ref bean="worker2"/>
-            </list>
+        <constructor-arg index="0">
+            <map>
+                <entry key="worker1" value="10"/>
+                <entry key="worker2" value="5" />
+            </map>
         </constructor-arg>
+        <constructor-arg index="1" type="pl.edu.agh.toik.ec.visualisation.Visualisation" ref="visualisation"/>
+        <constructor-arg index="2" type="pl.edu.agh.toik.ec.topology.TopologyService" ref="topology" />
     </bean>
 
 </beans>
