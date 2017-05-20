@@ -1,5 +1,7 @@
 package pl.edu.agh.toik.ec.namingservice;
 
+import java.util.Date;
+
 /**
  * Created by baran on 09.05.17.
  */
@@ -20,6 +22,6 @@ public class NamingServiceImpl implements NamingService {
 
     @Override
     public String nextWorkerId() {
-        return null;
+        return "worker " + new Date();
     }
 }

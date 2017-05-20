@@ -5,12 +5,12 @@ import pl.edu.agh.toik.ec.topology.Topology;
 public class SimpleWorker implements Worker {
 
     private String name;
-    private Integer steps;
+    private StopCondition stopCondition;
     private Topology topology;
 
-    public SimpleWorker(String name, Integer steps, Topology topology) {
+    public SimpleWorker(String name, StopCondition stopCondition, Topology topology) {
         this.name = name;
-        this.steps = steps;
+        this.stopCondition = stopCondition;
         this.topology = topology;
     }
 
@@ -21,8 +21,7 @@ public class SimpleWorker implements Worker {
 
     @Override
     public boolean isActive() {
-        steps = steps - 1;
-        return steps >= 0;
+        return stopCondition.isActive();
     }
 
     @Override

@@ -1,10 +1,9 @@
 package pl.edu.agh.toik.ec.starter;
 
-public interface Starter {
+import pl.edu.agh.toik.ec.communication.ReceiverInterface;
+
+public interface Starter extends ReceiverInterface {
 
     void run();
-
-    // may be changed to appropriate message type
-    void notify(String message);
 
 }
