@@ -12,7 +12,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <!-- Naming service -->
 
-    <bean id="namingService" class="pl.edu.agh.toik.ec.namingservice.NamingServiceImpl" />
+    <bean id="namingService" class="pl.edu.agh.toik.ec.namingservice.NamingServiceImpl">
+        <constructor-arg type="int" index="0" value="3"/>
+        <constructor-arg type="int" index="1" value="10"/>
+    </bean>
 
     <!-- Properties -->
 
