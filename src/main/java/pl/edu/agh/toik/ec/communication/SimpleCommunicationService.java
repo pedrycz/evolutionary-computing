@@ -7,7 +7,7 @@ public class SimpleCommunicationService implements CommunicationService {
     private CommunicationHandler communicationHandler = new CommunicationHandler();
 
     @Override
-    public void setStarter(ReceiverInterface starter) {
+    synchronized public void setStarter(ReceiverInterface starter) {
         communicationHandler.registerStarter(starter);
     }
 
@@ -16,12 +16,13 @@ public class SimpleCommunicationService implements CommunicationService {
         communicationHandler.getStarter().notify(message);
     }
 
-    public void send(String address, Message message) {
-        communicationHandler.getReceiver(address).notify(message);
+    @Override
+    public void send(Message message) {
+        communicationHandler.getReceiver(message.getWorkerName()).notify(message);
     }
 
     @Override
-    public void registerReceiver(String workerName, ReceiverInterface receiver) {
+    synchronized public void registerReceiver(String workerName, ReceiverInterface receiver) {
         communicationHandler.registerEndpoint(workerName, receiver);
     }
 }
