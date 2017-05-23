@@ -39,24 +39,8 @@ public class SimpleWorker implements Worker {
         System.out.println("SimpleWorker " + name + " step");
     }
 
-
-    public boolean checkStopCondition(StopCondition stopCondition) {
-        //stub
-        if (stepCounter < stopCondition.getSteps()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     //stub
     public Agent checkOwnAgents(String name) {
-        for (Agent a: agents) {
-            if(a.getName().equals(name)) {
-                return a;
-            }
-        }
-        return null;
     }
 
     public void sendMessage(Message msg) {
@@ -65,10 +49,15 @@ public class SimpleWorker implements Worker {
             agent.receiveMessage(msg);
         } else {
             //stub
-            communicationService.sendMessage(msg);
+            communicationService.send(msg);
             System.out.println("msg sent from worker: " + name);
         }
 
+    }
+
+    @Override
+    public boolean checkStopCondition() {
+        return false;
     }
 
 }
