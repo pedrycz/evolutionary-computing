@@ -40,8 +40,9 @@ public class SimpleStarter implements Starter {
         Topology topology = topologyService.getTopology();
 
         List<Worker> workers = new ArrayList<>();
-        for (StopCondition stopCondition : stopConditionList) {
-            workers.add(new SimpleWorker(namingService.nextWorkerId(), stopCondition, topology));
+        for(int i = 0; i < stopConditionList.size(); i++) {
+            StopCondition stopCondition = stopConditionList.get(i);
+            workers.add(new SimpleWorker(namingService.getWorkerId(i), stopCondition, topology));
         }
         for (Worker worker : workers) {
             worker.start();
