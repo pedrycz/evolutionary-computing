@@ -44,6 +44,7 @@ public class SimpleWorker implements Worker {
     }
 
     public void sendMessage(Message msg) {
+        /*
         Agent agent = checkOwnAgents(msg.getReceiver());
         if(agent!=null) {
             agent.receiveMessage(msg);
@@ -52,7 +53,7 @@ public class SimpleWorker implements Worker {
             communicationService.send(msg);
             System.out.println("msg sent from worker: " + name);
         }
-
+        */
     }
 
     @Override
