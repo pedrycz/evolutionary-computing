@@ -8,14 +8,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <!-- Communication -->
 
-    <bean id="communication" class="pl.edu.agh.toik.ec.communication.SimpleCommunicationService"/>
+    <bean id="communication" class="pl.edu.agh.toik.ec.communication.SimpleCommunicationService" />
 
     <!-- Naming service -->
 
-    <bean id="namingService" class="pl.edu.agh.toik.ec.namingservice.NamingServiceImpl">
-        <constructor-arg type="int" index="0" value="3"/>
-        <constructor-arg type="int" index="1" value="10"/>
-    </bean>
+    <bean id="namingService" class="pl.edu.agh.toik.ec.namingservice.NamingServiceImpl" />
 
     <!-- Properties -->
 

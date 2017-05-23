@@ -1,6 +1,7 @@
 package pl.edu.agh.toik.ec.starter;
 
 import pl.edu.agh.toik.ec.communication.CommunicationService;
+import pl.edu.agh.toik.ec.communication.Message;
 import pl.edu.agh.toik.ec.namingservice.NamingService;
 import pl.edu.agh.toik.ec.topology.Topology;
 import pl.edu.agh.toik.ec.topology.TopologyService;
@@ -51,7 +52,7 @@ public class SimpleStarter implements Starter {
     }
 
     @Override
-    public void notify(String message) {
+    public void notify(Message message) {
         visualisation.notify(message);
     }
 
