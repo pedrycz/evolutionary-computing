@@ -5,7 +5,7 @@ package pl.edu.agh.toik.ec.communication;
  */
 public interface CommunicationService {
     void sendToStarter(Message message);
-    void send(String address, Message message);
+    void send(Message message);
     void registerReceiver(String workerName, ReceiverInterface receiver);
     void setStarter(ReceiverInterface starter);
 }
