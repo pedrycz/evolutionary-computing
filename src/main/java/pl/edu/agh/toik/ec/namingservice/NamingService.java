@@ -5,6 +5,6 @@ package pl.edu.agh.toik.ec.namingservice;
  */
 public interface NamingService {
 
-    public String nextAgentId();
+    public String nextAgentId(String workerName);
     public String nextWorkerId();
 }

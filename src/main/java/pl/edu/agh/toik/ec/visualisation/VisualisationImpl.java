@@ -1,5 +1,7 @@
 package pl.edu.agh.toik.ec.visualisation;
 
+import pl.edu.agh.toik.ec.communication.Message;
+
 /**
  * Created by baran on 09.05.17.
  */
@@ -14,7 +16,7 @@ public class VisualisationImpl implements Visualisation {
     }
 
     @Override
-    public void notify(String message) {
+    public void notify(Message message) {
 
     }
 }

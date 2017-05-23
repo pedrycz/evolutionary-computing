@@ -1,10 +1,9 @@
 package pl.edu.agh.toik.ec.visualisation;
 
+import pl.edu.agh.toik.ec.communication.ReceiverInterface;
+
 /**
  * Created by baran on 09.05.17.
  */
-public interface Visualisation {
-
-    // may be changed to appropriate message type
-    void notify(String message);
+public interface Visualisation extends ReceiverInterface {
 }
