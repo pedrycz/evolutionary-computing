@@ -1,17 +1,17 @@
-package pl.edu.agh.toik.ec.aglorithm;
+package pl.edu.agh.toik.ec.algorithm;
 
 import pl.edu.agh.toik.ec.communication.Message;
 
 import java.util.ArrayList;
 
-public class Agent {
+public class AgentImpl implements Agent {
 
 
     //temporary stub for neighbours - maybe just an array of names?
     private ArrayList neighbours;
     private String name;
 
-    public Agent() {
+    public AgentImpl() {
         this.neighbours = new ArrayList();
     }
 
@@ -46,4 +46,8 @@ public class Agent {
     }
 
 
+    @Override
+    public void sendToStarter(Message message) {
+
+    }
 }
