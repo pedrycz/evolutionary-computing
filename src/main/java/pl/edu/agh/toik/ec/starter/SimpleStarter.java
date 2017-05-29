@@ -1,28 +1,28 @@
 package pl.edu.agh.toik.ec.starter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pl.edu.agh.toik.ec.communication.CommunicationService;
 import pl.edu.agh.toik.ec.communication.Message;
 import pl.edu.agh.toik.ec.namingservice.NamingService;
 import pl.edu.agh.toik.ec.topology.Topology;
 import pl.edu.agh.toik.ec.topology.TopologyService;
-import pl.edu.agh.toik.ec.visualisation.Visualisation;
+import pl.edu.agh.toik.ec.visualization.Visualization;
 import pl.edu.agh.toik.ec.workers.SimpleWorker;
 import pl.edu.agh.toik.ec.workers.StopCondition;
 import pl.edu.agh.toik.ec.workers.Worker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SimpleStarter implements Starter {
 
-    private final Visualisation visualisation;
+    private final Visualization visualisation;
     private final TopologyService topologyService;
     private final NamingService namingService;
     private CommunicationService communicationService;
     private final List<StopCondition> stopConditionList;
 
     public SimpleStarter(List<StopCondition> stopConditionList,
-                         Visualisation visualisation,
+                         Visualization visualisation,
                          TopologyService topologyService,
                          NamingService namingService,
                          CommunicationService communicationService) {

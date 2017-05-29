@@ -1,0 +1,21 @@
+.button {
+    background-color: #666;
+    cursor: pointer;
+}
+
+.ws-dashboard {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.ws-dashboard div {
+    width: 23%;
+    margin: 1%;
+    float: left;
+    font-size: 200%;
+}
+
+.ws-dashboard div.label {
+    text-align: right;
+}
