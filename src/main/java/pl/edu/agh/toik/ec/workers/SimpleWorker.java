@@ -3,6 +3,7 @@ package pl.edu.agh.toik.ec.workers;
 import pl.edu.agh.toik.ec.algorithm.AgentImpl;
 import pl.edu.agh.toik.ec.communication.CommunicationService;
 import pl.edu.agh.toik.ec.communication.Message;
+import pl.edu.agh.toik.ec.namingservice.NamingService;
 import pl.edu.agh.toik.ec.topology.Topology;
 
 import java.util.HashMap;
@@ -16,13 +17,15 @@ public class SimpleWorker implements Worker {
     private HashMap<String, AgentImpl> agents;
     private AgentFactory agentFactory;
     private boolean active = false;
+    private NamingService namingService;
 
-    public SimpleWorker(String name, StopCondition stopCondition, Topology topology, CommunicationService communicationService) {
+    public SimpleWorker(String name, StopCondition stopCondition, Topology topology, CommunicationService communicationService, NamingService namingService) {
 
         this.name = name;
         this.stopCondition = stopCondition;
         this.topology = topology;
         this.communicationService = communicationService;
+        this.namingService = namingService;
 
         this.agentFactory = new AgentFactory(topology, name);
     }
@@ -45,6 +48,8 @@ public class SimpleWorker implements Worker {
                 entry.getValue().makeStep();
             }
             System.out.println("SimpleWorker " + name + " step");
+        } else {
+            active = false;
         }
     }
 
