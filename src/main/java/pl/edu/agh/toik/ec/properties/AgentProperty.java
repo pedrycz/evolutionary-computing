@@ -3,6 +3,7 @@ package pl.edu.agh.toik.ec.properties;
 import pl.edu.agh.toik.ec.algorithm.Agent;
 import pl.edu.agh.toik.ec.algorithm.Property;
 import pl.edu.agh.toik.ec.communication.Message;
+import pl.edu.agh.toik.ec.communication.SimpleCommunicationService;
 
 import java.util.Date;
 
@@ -25,7 +26,7 @@ public class AgentProperty<T> extends Property<T> {
         super.setValue(value);
         if (observationType.check(value)) {
             Message message = new AgentMessage(parameterName, value);
-            agent.sendMessage(message);
+            agent.sendMessage(SimpleCommunicationService.STARTER_NAME, message);
         }
     }
 
