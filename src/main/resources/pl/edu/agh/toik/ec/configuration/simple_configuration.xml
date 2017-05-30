@@ -24,7 +24,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <map>
                 <entry key="param1">
                     <bean class="pl.edu.agh.toik.ec.properties.observation.Condition">
-                        <constructor-arg type="java.lang.String" value="${x > 5}"/>
+                        <constructor-arg type="java.lang.String" value="{x > 5}"/>
                     </bean>
                 </entry>
                 <entry key="param2">
@@ -48,11 +48,13 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <!-- Visualisation -->
 
-    <bean id="visualisation" class="pl.edu.agh.toik.ec.visualisation.VisualisationImpl">
+    <bean id="visualization" class="pl.edu.agh.toik.ec.visualization.VisualizationImpl">
         <constructor-arg index="0">
-            <bean class="pl.edu.agh.toik.ec.visualisation.BestOfStrategy"/>
+            <bean class="pl.edu.agh.toik.ec.visualization.strategy.AllStrategy"/>
         </constructor-arg>
-        <constructor-arg index="1" value="A"/>
+        <constructor-arg index="1">
+        	<bean class="pl.edu.agh.toik.ec.visualization.type.LogType" />
+        </constructor-arg>
     </bean>
 
     <!-- Starter -->
@@ -68,7 +70,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 </bean>
             </list>
         </constructor-arg>
-        <constructor-arg index="1" type="pl.edu.agh.toik.ec.visualisation.Visualisation" ref="visualisation"/>
+        <constructor-arg index="1" type="pl.edu.agh.toik.ec.visualization.Visualization" ref="visualization"/>
         <constructor-arg index="2" type="pl.edu.agh.toik.ec.topology.TopologyService" ref="topology" />
         <constructor-arg index="3" type="pl.edu.agh.toik.ec.namingservice.NamingService" ref="namingService" />
         <constructor-arg index="4" type="pl.edu.agh.toik.ec.communication.CommunicationService" ref="communication" />
