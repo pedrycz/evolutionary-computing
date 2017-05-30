@@ -41,9 +41,9 @@ public interface Agent {
 
     public void setName(String name);
 
-    public List<Agent> getNeighbours();
+    public List<String> getNeighbours();
 
-    public void setNeighbours(List<Agent> neighbours);
+    public void setNeighbours(List<String> neighbours);
 
     public int getPopulationSize();
 

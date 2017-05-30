@@ -24,7 +24,7 @@ public class AgentImpl implements Agent {
 
     private String name = null;
 
-    private List<Agent> neighbours;
+    private List<String> neighbours;
 
     private int populationSize;
     private int populationDimension;
@@ -148,15 +148,15 @@ public class AgentImpl implements Agent {
     }
     
     @Override
-    public List<Agent> getNeighbours() {
+    public List<String> getNeighbours() {
         return neighbours;
     }
-    
+
     @Override
-    public void setNeighbours(List<Agent> neighbours) {
+    public void setNeighbours(List<String> neighbours) {
         this.neighbours = neighbours;
     }
-    
+
     @Override
     public int getPopulationSize() {
         return populationSize;
