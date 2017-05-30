@@ -4,6 +4,6 @@ import pl.edu.agh.toik.ec.communication.Message;
 
 public interface Agent {
 
-    void sendToStarter(Message message);
+    void sendMessage(Message message);
 
 }

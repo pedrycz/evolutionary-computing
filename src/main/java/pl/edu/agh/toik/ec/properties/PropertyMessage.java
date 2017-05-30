@@ -6,7 +6,7 @@ public abstract class PropertyMessage<T> extends Message {
 
     abstract String getPropertyName();
 
-     abstract T getValue();
+    abstract T getValue();
 
     abstract long getTimestamp();
 
