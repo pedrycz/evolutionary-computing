@@ -40,7 +40,7 @@ public class SimpleStarter implements Starter {
     public void run() {
         communicationService.setStarter(this);
 
-        Topology topology = topologyService.getTopology();
+        Topology topology = topologyService.getTopology(namingService.getAgentsIds());
 
         List<Worker> workers = new ArrayList<>();
         for(int i = 0; i < stopConditionList.size(); i++) {
