@@ -11,11 +11,13 @@ public class AgentProperty<T> extends Property<T> {
     private final String parameterName;
     private final Agent agent;
     private final ObservationType observationType;
+    private final String starterId;
 
-    public AgentProperty(String agentParameter, Agent agent, ObservationType observationType) {
+    public AgentProperty(String agentParameter, Agent agent, ObservationType observationType, String starterId) {
         this.parameterName = agentParameter;
         this.agent = agent;
         this.observationType = observationType;
+        this.starterId = starterId;
     }
 
     @Override
@@ -23,20 +25,21 @@ public class AgentProperty<T> extends Property<T> {
         super.setValue(value);
         if (observationType.check(value)) {
             Message message = new AgentMessage(parameterName, value);
-            agent.sendToStarter(message);
+            agent.sendMessage(message);
         }
     }
 
-    private class AgentMessage implements PropertyMessage<T> {
+    private class AgentMessage extends PropertyMessage<T> {
 
         private final String parameterName;
         private final T value;
         private final long timestamp;
 
-        public AgentMessage(String parameterName, T value) {
+        AgentMessage(String parameterName, T value) {
             this.parameterName = parameterName;
             this.value = value;
             this.timestamp = new Date().getTime();
+            this.setWorkerName(starterId);
         }
 
         @Override

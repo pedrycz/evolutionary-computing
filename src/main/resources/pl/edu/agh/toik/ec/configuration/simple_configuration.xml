@@ -18,7 +18,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </bean>
 
     <!-- Properties -->
-
+<!--
     <bean id="properties" class="pl.edu.agh.toik.ec.properties.PropertiesImpl">
         <constructor-arg>
             <map>
@@ -38,7 +38,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             </map>
         </constructor-arg>
     </bean>
-
+-->
     <!-- Topology -->
 
     <bean id="topology" class="pl.edu.agh.toik.ec.topology.TopologyServiceImpl">
