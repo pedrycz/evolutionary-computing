@@ -24,7 +24,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <map>
                 <entry key="param1">
                     <bean class="pl.edu.agh.toik.ec.properties.observation.Condition">
-                    	<!-- FIXME value ${x > 5} made spring boot crash -->
                         <constructor-arg type="java.lang.String" value="{x > 5}"/>
                     </bean>
                 </entry>
