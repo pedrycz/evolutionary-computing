@@ -5,23 +5,20 @@ package pl.edu.agh.toik.ec.communication;
  */
 public class SimpleCommunicationService implements CommunicationService {
     private CommunicationHandler communicationHandler = new CommunicationHandler();
+    public static final String STARTER_NAME = "Starter";
 
     @Override
-    public void setStarter(ReceiverInterface starter) {
-        communicationHandler.registerStarter(starter);
+    synchronized public void setStarter(ReceiverInterface starter) {
+        communicationHandler.registerEndpoint(STARTER_NAME, starter);
     }
 
     @Override
-    public void sendToStarter(Message message) {
-        communicationHandler.getStarter().notify(message);
-    }
-
-    public void send(String address, Message message) {
-        communicationHandler.getReceiver(address).notify(message);
+    public void send(Message message) {
+        communicationHandler.getReceiver(message.getWorkerName()).notify(message);
     }
 
     @Override
-    public void registerReceiver(String workerName, ReceiverInterface receiver) {
+    synchronized public void registerReceiver(String workerName, ReceiverInterface receiver) {
         communicationHandler.registerEndpoint(workerName, receiver);
     }
 }

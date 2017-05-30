@@ -8,6 +8,7 @@ public class SimpleWorker implements Worker {
     private StopCondition stopCondition;
     private Topology topology;
 
+    // liste kroków (interfejsy), init krok, lista parametrow
     public SimpleWorker(String name, StopCondition stopCondition, Topology topology) {
         this.name = name;
         this.stopCondition = stopCondition;
