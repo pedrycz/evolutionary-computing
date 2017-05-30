@@ -27,7 +27,7 @@ public class AgentProperty<T> extends Property<T> {
         }
     }
 
-    private class AgentMessage implements PropertyMessage<T> {
+    private class AgentMessage extends PropertyMessage<T> {
 
         private final String parameterName;
         private final T value;

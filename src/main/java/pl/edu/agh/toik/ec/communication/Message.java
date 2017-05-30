@@ -12,7 +12,7 @@ public abstract class Message implements Serializable {
         return workerName;
     }
 
-    public void setWorkerName(String workerName) {
+    public void setTargetWorkerName(String workerName) {
         this.workerName = workerName;
     }
 }

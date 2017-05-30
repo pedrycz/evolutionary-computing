@@ -18,6 +18,7 @@ public class SimpleWorker implements Worker {
     private boolean active = false;
 
     public SimpleWorker(String name, StopCondition stopCondition, Topology topology, CommunicationService communicationService) {
+
         this.name = name;
         this.stopCondition = stopCondition;
         this.topology = topology;
