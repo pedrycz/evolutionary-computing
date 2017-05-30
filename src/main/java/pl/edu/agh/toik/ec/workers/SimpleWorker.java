@@ -3,6 +3,7 @@ package pl.edu.agh.toik.ec.workers;
 import pl.edu.agh.toik.ec.algorithm.AgentImpl;
 import pl.edu.agh.toik.ec.communication.CommunicationService;
 import pl.edu.agh.toik.ec.communication.Message;
+import pl.edu.agh.toik.ec.configuration.Configuration;
 import pl.edu.agh.toik.ec.namingservice.NamingService;
 import pl.edu.agh.toik.ec.topology.Topology;
 
@@ -19,19 +20,23 @@ public class SimpleWorker implements Worker {
     private boolean active = false;
     private NamingService namingService;
 
-    public SimpleWorker(String name, StopCondition stopCondition, Topology topology, CommunicationService communicationService, NamingService namingService) {
+    public SimpleWorker(String name, StopCondition stopCondition, Configuration configuration) {
 
         this.name = name;
         this.stopCondition = stopCondition;
-        this.topology = topology;
-        this.communicationService = communicationService;
-        this.namingService = namingService;
+        this.topology = configuration.getTopology();
+        this.communicationService = configuration.getCommunicationService();
+        this.namingService = configuration.getNamingService();
 
         this.agentFactory = new AgentFactory(topology, name);
     }
 
     public void createAgents(int numOfAgents) {
         this.agents = this.agentFactory.getAgents(numOfAgents);
+/*        add this?
+        for (AgentImpl agent : agents.values()) {
+            agent.setup();
+        }*/
     }
 
     @Override
