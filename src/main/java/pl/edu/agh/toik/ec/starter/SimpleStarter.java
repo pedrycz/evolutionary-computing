@@ -42,7 +42,7 @@ public class SimpleStarter implements Starter {
         List<Worker> workers = new ArrayList<>();
         for(int i = 0; i < stopConditionList.size(); i++) {
             StopCondition stopCondition = stopConditionList.get(i);
-            workers.add(new SimpleWorker(namingService.getWorkerId(i), stopCondition, topology));
+            workers.add(new SimpleWorker(namingService.getWorkerId(i), stopCondition, topology, communicationService));
         }
         for (Worker worker : workers) {
             worker.start();
