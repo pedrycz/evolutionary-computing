@@ -39,7 +39,7 @@ public class AgentProperty<T> extends Property<T> {
             this.parameterName = parameterName;
             this.value = value;
             this.timestamp = new Date().getTime();
-            this.setWorkerName(starterId);
+            this.setTargetWorkerName(starterId);
         }
 
         @Override

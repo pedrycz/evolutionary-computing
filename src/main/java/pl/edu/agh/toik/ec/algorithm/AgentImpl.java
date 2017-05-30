@@ -44,10 +44,4 @@ public class AgentImpl implements Agent {
     public void sendMessage(Message msg) {
 
     }
-
-
-    @Override
-    public void sendToStarter(Message message) {
-
-    }
 }
