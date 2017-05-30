@@ -8,7 +8,7 @@ public class AgentImpl implements Agent {
 
 
     //temporary stub for neighbours - maybe just an array of names?
-    private ArrayList neighbours;
+    private ArrayList<String> neighbours;
     private String name;
 
     public AgentImpl() {

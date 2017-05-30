@@ -11,17 +11,18 @@ public class SimpleWorker implements Worker {
 
     private String name;
     private StopCondition stopCondition;
-    private int stepCounter = 0;
     private Topology topology;
     private CommunicationService communicationService;
     private HashMap<String, AgentImpl> agents;
     private AgentFactory agentFactory;
     private boolean active = false;
 
-    public SimpleWorker(String name, StopCondition stopCondition, Topology topology) {
+    public SimpleWorker(String name, StopCondition stopCondition, Topology topology, CommunicationService communicationService) {
         this.name = name;
         this.stopCondition = stopCondition;
         this.topology = topology;
+        this.communicationService = communicationService;
+
         this.agentFactory = new AgentFactory(topology, name);
     }
 
@@ -42,7 +43,6 @@ public class SimpleWorker implements Worker {
             for (HashMap.Entry<String, AgentImpl> entry : agents.entrySet()) {
                 entry.getValue().makeStep();
             }
-            stepCounter++;
             System.out.println("SimpleWorker " + name + " step");
         }
     }
@@ -71,14 +71,6 @@ public class SimpleWorker implements Worker {
         return this.active;
     }
 
-
-    public int getStepCounter() {
-        return stepCounter;
-    }
-
-    public void setStepCounter(int stepCounter) {
-        this.stepCounter = stepCounter;
-    }
 
     public HashMap<String, AgentImpl> getAgents() {
         return agents;
