@@ -1,14 +1,24 @@
+buildscript {
+    repositories {
+    	mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+    	classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
 group 'evolutionary-computing'
 version '0.1-SNAPSHOT'
 
 apply plugin: 'java'
-apply plugin: 'application'
-
-mainClassName = 'pl.edu.agh.toik.ec.MainApp'
+apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.7
 
-run {
+bootRun {
     if ( project.hasProperty("appArgs") ) {
         args Eval.me(appArgs)
     }
@@ -19,8 +29,16 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.springframework', name: 'spring-core', version: '4.3.8.RELEASE'
-    compile group: 'org.springframework', name: 'spring-context', version: '4.3.8.RELEASE'
+    compile("org.springframework:spring-core")
+    compile("org.springframework:spring-context")
+   	compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-devtools")
+    compile("org.webjars:webjars-locator")
+    compile("org.webjars:sockjs-client:1.0.2")
+    compile("org.webjars:stomp-websocket:2.3.3")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

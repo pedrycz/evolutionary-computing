@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Visualization</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="/index.css" rel="stylesheet" />
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+  </head>
+  <body>
+    <div id="fetch" class="button">Fetch</div>
+    <div id="output"></div>
+    <div class="ws-dashboard">
+      <div class="label">Time:</div>
+      <div id="ws-time"></div>
+      <div class="label">Fitness:</div>
+      <div id="ws-value"></div>
+    </div>
+    <div id="ws-output"></div>
+    <script src="/index.js"></script>
+  </body>
+</html>
