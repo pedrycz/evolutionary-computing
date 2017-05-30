@@ -19,18 +19,21 @@ public class SimpleStarter implements Starter {
     private final TopologyService topologyService;
     private final NamingService namingService;
     private CommunicationService communicationService;
+    private int agentPerWorker;
     private final List<StopCondition> stopConditionList;
 
     public SimpleStarter(List<StopCondition> stopConditionList,
                          Visualisation visualisation,
                          TopologyService topologyService,
                          NamingService namingService,
-                         CommunicationService communicationService) {
+                         CommunicationService communicationService,
+                         int agentPerWorker) {
         this.stopConditionList = stopConditionList;
         this.visualisation = visualisation;
         this.topologyService = topologyService;
         this.namingService = namingService;
         this.communicationService = communicationService;
+        this.agentPerWorker = agentPerWorker;
     }
 
     @Override
@@ -42,7 +45,9 @@ public class SimpleStarter implements Starter {
         List<Worker> workers = new ArrayList<>();
         for(int i = 0; i < stopConditionList.size(); i++) {
             StopCondition stopCondition = stopConditionList.get(i);
-            workers.add(new SimpleWorker(namingService.getWorkerId(i), stopCondition, topology, communicationService));
+            SimpleWorker worker = new SimpleWorker(namingService.getWorkerId(i), stopCondition, topology, communicationService);
+            worker.createAgents(agentPerWorker);
+            workers.add(worker);
         }
         for (Worker worker : workers) {
             worker.start();
