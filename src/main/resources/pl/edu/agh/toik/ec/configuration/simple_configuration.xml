@@ -50,6 +50,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <constructor-arg index="1" type="int" value="10" />
     </bean>
 
+    <!--Migration-->
+    <bean id="migration" class="pl.edu.agh.toik.ec.migration.BestIndividualsEmigrateStrategy">
+        <constructor-arg index="0" type="int" value="2" />
+    </bean>
+
     <!-- Visualisation -->
 
     <bean id="visualization" class="pl.edu.agh.toik.ec.visualization.VisualizationImpl">
@@ -91,6 +96,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <constructor-arg index="2" type="pl.edu.agh.toik.ec.topology.TopologyService" ref="topology" />
         <constructor-arg index="3" type="pl.edu.agh.toik.ec.configuration.Configuration" ref="config" />
         <constructor-arg index="4" type="int" ref="agentPerWorker"/>
+        <constructor-arg index="5" type="pl.edu.agh.toik.ec.migration.EmigrateStrategy" ref="migration"/>
     </bean>
 
 </beans>
