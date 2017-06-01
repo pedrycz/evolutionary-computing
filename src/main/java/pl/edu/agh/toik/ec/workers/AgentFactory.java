@@ -3,7 +3,7 @@ package pl.edu.agh.toik.ec.workers;
 import pl.edu.agh.toik.ec.algorithm.Agent;
 import pl.edu.agh.toik.ec.algorithm.AgentImpl;
 import pl.edu.agh.toik.ec.algorithm.Property;
-import pl.edu.agh.toik.ec.draft.AgentConfiguration;
+import pl.edu.agh.toik.ec.configuration.AgentConfiguration;
 import pl.edu.agh.toik.ec.draft.AgentParameter;
 import pl.edu.agh.toik.ec.draft.PropertyConfiguration;
 import pl.edu.agh.toik.ec.properties.AgentProperty;

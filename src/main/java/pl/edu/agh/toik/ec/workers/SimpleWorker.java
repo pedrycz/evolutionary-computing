@@ -28,7 +28,7 @@ public class SimpleWorker implements Worker {
         this.communicationService = configuration.getCommunicationService();
         this.namingService = configuration.getNamingService();
 
-        this.agentFactory = new AgentFactory(topology, name);
+        this.agentFactory = new AgentFactory(topology, name, configuration.getAgentConfiguration());
     }
 
     public void createAgents(int numOfAgents) {
@@ -48,7 +48,7 @@ public class SimpleWorker implements Worker {
 
     @Override
     public void step() {
-        if(checkStopCondition()) {
+        if (checkStopCondition()) {
             for (HashMap.Entry<String, AgentImpl> entry : agents.entrySet()) {
                 entry.getValue().makeStep();
             }
@@ -61,11 +61,20 @@ public class SimpleWorker implements Worker {
     //waiting for message to clarify
     @Override
     public void sendMessage(Message msg) {
+        if (msg instanceof SimpleMessage) {
+            SimpleMessage simpleMsg = (SimpleMessage) msg;
+            if (agents.containsKey(simpleMsg.getReceiver())) {
+                agents.get(simpleMsg.getReceiver()).receiveMessage(simpleMsg);
+                return;
+            }
+        }
 
+        communicationService.send(msg);
     }
 
     public void sendMessage(SimpleMessage msg) {
-        if(agents.containsKey(msg.getReceiver())) {
+
+        if (agents.containsKey(msg.getReceiver())) {
             agents.get(msg.getReceiver()).receiveMessage(msg);
         } else {
             communicationService.send(msg);
