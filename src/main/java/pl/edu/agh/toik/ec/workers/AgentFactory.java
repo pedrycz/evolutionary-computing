@@ -8,6 +8,8 @@ import pl.edu.agh.toik.ec.namingservice.NamingService;
 import pl.edu.agh.toik.ec.properties.AgentProperty;
 import pl.edu.agh.toik.ec.properties.ObservationType;
 import pl.edu.agh.toik.ec.properties.observation.EventObservationType;
+import pl.edu.agh.toik.ec.properties.observation.LimitedObservationType;
+import pl.edu.agh.toik.ec.properties.observation.PeriodicalObservationType;
 import pl.edu.agh.toik.ec.topology.Topology;
 
 import java.util.ArrayList;
@@ -29,31 +31,53 @@ public class AgentFactory {
         this.namingService = configuration.getNamingService();
     }
 
-    public Agent getAgent(String name) {
+    private Agent getAgent(String name) {
+
         AgentImpl agentImpl = new AgentImpl();
         agentImpl.setNeighbours(topology.getNeightbours(name));
+
+        //Agent config
+        
+
+        //AgentProperty config
         ObservationType observationType = getObservationType(agentConfiguration.toString());
+        String agentParameter = agentConfiguration.getAgentParameter();
+        AgentProperty agentProperty = new AgentProperty(agentParameter, agentImpl, observationType);
 
-        String agentParameter = "";
-        String starterId = "";
 
-        AgentProperty agentProperty = new AgentProperty(agentParameter, agentImpl, observationType, starterId);
         return agentImpl;
     }
 
     public HashMap<String, Agent> getAgents(int numOfAgents) {
         HashMap<String, Agent> agents = new HashMap<>();
         for(int i = 0; i < numOfAgents; i++) {
-            String name = "agent" + i;
+            String name = namingService.getAgentId(workerName, i);
             agents.put(name, getAgent(name));
         }
         return agents;
     }
 
     private ObservationType getObservationType(String type) {
+        ObservationType observationType;
         switch (type) {
+            case "EventObservationType":
+                observationType = new EventObservationType();
+                break;
+            case "LimitedObservationType":
+                observationType = new LimitedObservationType();
+                break;
+            case "PeriodicalObservationType":
+                observationType = new PeriodicalObservationType();
+                break;
+            default:
+                observationType = new ObservationType() {
+                    @Override
+                    public boolean check(Object value) {
+                        return false;
+                    }
+                };
+                break;
         }
-        ObservationType observationType = new EventObservationType();
         return observationType;
     }
 
