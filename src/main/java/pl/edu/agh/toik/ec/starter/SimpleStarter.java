@@ -5,6 +5,9 @@ import java.util.List;
 
 import pl.edu.agh.toik.ec.communication.CommunicationService;
 import pl.edu.agh.toik.ec.communication.Message;
+import pl.edu.agh.toik.ec.configuration.Configuration;
+import pl.edu.agh.toik.ec.migration.EmigrateStrategy;
+import pl.edu.agh.toik.ec.migration.EmigrationIndividuals;
 import pl.edu.agh.toik.ec.namingservice.NamingService;
 import pl.edu.agh.toik.ec.topology.Topology;
 import pl.edu.agh.toik.ec.topology.TopologyService;
@@ -17,35 +20,37 @@ public class SimpleStarter implements Starter {
 
     private final Visualization visualisation;
     private final TopologyService topologyService;
-    private final NamingService namingService;
-    private CommunicationService communicationService;
-    private int agentPerWorker;
+    private final int agentPerWorker;
     private final List<StopCondition> stopConditionList;
+    private Configuration configuration;
+    private final EmigrateStrategy emigrateStrategy;
 
     public SimpleStarter(List<StopCondition> stopConditionList,
                          Visualization visualisation,
                          TopologyService topologyService,
-                         NamingService namingService,
-                         CommunicationService communicationService,
-                         int agentPerWorker) {
+                         Configuration configuration,
+                         int agentPerWorker,
+                         EmigrateStrategy emigrateStrategy) {
         this.stopConditionList = stopConditionList;
         this.visualisation = visualisation;
         this.topologyService = topologyService;
-        this.namingService = namingService;
-        this.communicationService = communicationService;
+        this.configuration = configuration;
         this.agentPerWorker = agentPerWorker;
+        this.emigrateStrategy = emigrateStrategy;
     }
 
     @Override
     public void run() {
-        communicationService.setStarter(this);
+        configuration.getCommunicationService().setStarter(this);
 
-        Topology topology = topologyService.getTopology(namingService.getAgentsIds());
+        Topology topology = topologyService.getTopology(configuration.getNamingService().getAgentsIds());
+        configuration = configuration.withTopology(topology);
+        configuration = configuration.withEmigrateStrategy(emigrateStrategy);
 
         List<Worker> workers = new ArrayList<>();
         for(int i = 0; i < stopConditionList.size(); i++) {
             StopCondition stopCondition = stopConditionList.get(i);
-            SimpleWorker worker = new SimpleWorker(namingService.getWorkerId(i), stopCondition, topology, communicationService);
+            SimpleWorker worker = new SimpleWorker(configuration.getNamingService().getWorkerId(i), stopCondition, configuration);
             worker.createAgents(agentPerWorker);
             workers.add(worker);
         }

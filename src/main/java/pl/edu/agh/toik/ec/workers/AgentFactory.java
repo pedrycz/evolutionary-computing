@@ -3,6 +3,7 @@ package pl.edu.agh.toik.ec.workers;
 import pl.edu.agh.toik.ec.algorithm.Agent;
 import pl.edu.agh.toik.ec.algorithm.AgentImpl;
 import pl.edu.agh.toik.ec.configuration.AgentConfiguration;
+import pl.edu.agh.toik.ec.configuration.Configuration;
 import pl.edu.agh.toik.ec.namingservice.NamingService;
 import pl.edu.agh.toik.ec.properties.AgentProperty;
 import pl.edu.agh.toik.ec.properties.ObservationType;
@@ -21,12 +22,11 @@ public class AgentFactory {
     private AgentConfiguration agentConfiguration;
     private NamingService namingService;
 
-    public AgentFactory(Topology topology, String workerName, AgentConfiguration agentConfiguration,
-                        NamingService namingService) {
-        this.topology = topology;
+    public AgentFactory(Configuration configuration, String workerName) {
+        this.topology = configuration.getTopology();
         this.workerName = workerName;
-        this.agentConfiguration = agentConfiguration;
-        this.namingService = namingService;
+        this.agentConfiguration = configuration.getAgentConfiguration();
+        this.namingService = configuration.getNamingService();
     }
 
     public Agent getAgent(String name) {
