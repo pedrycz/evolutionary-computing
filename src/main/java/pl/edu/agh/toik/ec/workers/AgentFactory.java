@@ -33,19 +33,18 @@ public class AgentFactory {
     public AgentImpl getAgent(String name) {
         AgentImpl agentImpl = new AgentImpl();
 
-        Map<AgentParameter, PropertyConfiguration> configuration = agentConfiguration.getParameterConfiguration();
-
-        agentImpl.setBestFitnessProperty(createAgentProperty(agentImpl, configuration.get(AgentParameter.BEST_FITNESS)));
-        agentImpl.setWorstFitnessProperty(createAgentProperty(agentImpl, configuration.get(AgentParameter.WORST_FITNESS)));
-        agentImpl.setPopulationDiversityProperty(createAgentProperty(agentImpl, configuration.get(AgentParameter.POPULATION_DIVERSITY)));
+        agentImpl.setBestFitnessProperty(createAgentProperty(agentImpl, AgentParameter.BEST_FITNESS));
+        agentImpl.setWorstFitnessProperty(createAgentProperty(agentImpl, AgentParameter.WORST_FITNESS));
+        agentImpl.setPopulationDiversityProperty(createAgentProperty(agentImpl, AgentParameter.POPULATION_DIVERSITY));
 
         return agentImpl;
     }
 
-    private <T> Property<T> createAgentProperty(Agent agent, PropertyConfiguration propertyConfiguration) {
+    private <T> Property<T> createAgentProperty(Agent agent, AgentParameter agentParameter) {
+        PropertyConfiguration propertyConfiguration = agentConfiguration.getParameterConfiguration().get(agentParameter);
         if (propertyConfiguration.isObserved()) {
             ObservationType observationType = createObservationType(propertyConfiguration.getObservationTypeName(), propertyConfiguration.getObservationArguments());
-            return new AgentProperty<>(AgentParameter.BEST_FITNESS.name(), agent, observationType);
+            return new AgentProperty<>(agentParameter.name(), agent, observationType);
         } else {
             return new Property<>();
         }
