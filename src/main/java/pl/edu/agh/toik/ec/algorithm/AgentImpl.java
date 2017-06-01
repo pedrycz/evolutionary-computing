@@ -2,6 +2,8 @@ package pl.edu.agh.toik.ec.algorithm;
 
 import pl.edu.agh.toik.ec.algorithm.generation.PopulationGenerationStrategy;
 import pl.edu.agh.toik.ec.communication.Message;
+import pl.edu.agh.toik.ec.workers.SimpleMessage;
+import pl.edu.agh.toik.ec.workers.Worker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,13 +18,14 @@ public class AgentImpl implements Agent {
     private LinkedList<AlgorithmStep> algorithmSteps = new LinkedList<>();
 
     private LinkedList<Message> incomingMessages = new LinkedList<>();
-    private LinkedList<Message> outgoingMessages = new LinkedList<>();
+    private LinkedList<SimpleMessage> outgoingMessages = new LinkedList<>();
 
     private Property<Double> bestFitnessProperty = new Property<>();
     private Property<Double> worstFitnessProperty = new Property<>();
     private Property<Double> populationDiversityProperty = new Property<>();
 
-    private String name = null;
+    private Worker worker;
+    private String name;
 
     private List<String> neighbours;
 
@@ -40,7 +43,7 @@ public class AgentImpl implements Agent {
             return value.getFitness();
         }
     };
-    
+
     @Override
     public void setup() {
         assert populationGenerationStrategy != null : "Population generation strategy cannot be null";
@@ -56,8 +59,16 @@ public class AgentImpl implements Agent {
             step.process(this, population);
         calculatePopulationDiversity();
         calculateFitnessProperties();
+        flushOutgoingMessages();
     }
-    
+
+    private void flushOutgoingMessages() {
+        for (SimpleMessage message : outgoingMessages) {
+            worker.sendMessage(message);
+        }
+        outgoingMessages.clear();
+    }
+
     private void calculateFitnessProperties() {
         DoubleStream populationFitnessStream = population.stream().mapToDouble(INDIVIDUAL_TO_FITNESS_FUNCTION);
         bestFitnessProperty.setValue(populationFitnessStream.max().orElseGet(null));
@@ -68,7 +79,7 @@ public class AgentImpl implements Agent {
         // TODO Auto-generated method stub
 
     }
-    
+
     @Override
     public void clearSteps() {
         algorithmSteps.clear();
@@ -85,68 +96,58 @@ public class AgentImpl implements Agent {
         assert step != null : "Algorithm step cannot be null";
         algorithmSteps.add(step);
     }
-    
+
     @Override
     public void addStep(int index, AlgorithmStep step) {
         assert step != null : "Algorithm step cannot be null";
         algorithmSteps.add(index, step);
     }
-    
+
     @Override
     public void receiveMessage(Message message) {
         incomingMessages.add(message);
     }
-    
+
     @Override
-    public void sendMessage(String address, Message message) {
+    public void sendMessage(SimpleMessage message) {
         outgoingMessages.add(message);
     }
-    
-    @Override
-    public List<Message> getOutgoingMessages() {
-        return Collections.unmodifiableList(outgoingMessages);
-    }
-    
-    @Override
-    public boolean consumeOutgoingMessage(Message message) {
-        return outgoingMessages.remove(message);
-    }
-    
+
     @Override
     public List<Message> getIncomingMessages() {
         return Collections.unmodifiableList(incomingMessages);
     }
-    
+
     @Override
     public boolean consumeIncomingMessage(Message message) {
         return incomingMessages.remove(message);
     }
-    
+
     @Override
     public void setBestFitnessProperty(Property<Double> bestFitnessProperty) {
         this.bestFitnessProperty = bestFitnessProperty;
     }
-    
-    @Override   
+
+    @Override
     public void setWorstFitnessProperty(Property<Double> worstFitnessProperty) {
         this.worstFitnessProperty = worstFitnessProperty;
     }
-    
+
     @Override
     public void setPopulationDiversityProperty(Property<Double> populationDiversityProperty) {
         this.populationDiversityProperty = populationDiversityProperty;
     }
-    
+
     @Override
     public String getName() {
         return name;
     }
-    
+
     @Override
     public void setName(String name) {
         this.name = name;
     }
-    
+
     @Override
     public List<String> getNeighbours() {
         return neighbours;
@@ -161,30 +162,35 @@ public class AgentImpl implements Agent {
     public int getPopulationSize() {
         return populationSize;
     }
-    
+
     @Override
     public void setPopulationSize(int populationSize) {
         this.populationSize = populationSize;
     }
-    
+
     @Override
     public int getPopulationDimension() {
         return populationDimension;
     }
-    
+
     @Override
     public void setPopulationDimension(int populationDimension) {
         this.populationDimension = populationDimension;
     }
-    
+
     @Override
     public PopulationGenerationStrategy getPopulationGenerationStrategy() {
         return populationGenerationStrategy;
     }
-    
+
     @Override
     public void setPopulationGenerationStrategy(PopulationGenerationStrategy populationGenerationStrategy) {
         this.populationGenerationStrategy = populationGenerationStrategy;
+    }
+
+    @Override
+    public void setWorker(Worker worker) {
+        this.worker = worker;
     }
 
 }

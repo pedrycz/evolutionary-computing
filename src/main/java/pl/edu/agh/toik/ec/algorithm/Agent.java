@@ -4,6 +4,8 @@ import java.util.List;
 
 import pl.edu.agh.toik.ec.algorithm.generation.PopulationGenerationStrategy;
 import pl.edu.agh.toik.ec.communication.Message;
+import pl.edu.agh.toik.ec.workers.SimpleMessage;
+import pl.edu.agh.toik.ec.workers.Worker;
 
 public interface Agent {
 
@@ -21,11 +23,7 @@ public interface Agent {
 
     public void receiveMessage(Message message);
 
-    public void sendMessage(Message message);
-
-    public List<Message> getOutgoingMessages();
-
-    public boolean consumeOutgoingMessage(Message message);
+    public void sendMessage(SimpleMessage message);
 
     public List<Message> getIncomingMessages();
 
@@ -56,5 +54,7 @@ public interface Agent {
     public PopulationGenerationStrategy getPopulationGenerationStrategy();
 
     public void setPopulationGenerationStrategy(PopulationGenerationStrategy populationGenerationStrategy);
+    
+    public void setWorker(Worker worker);
 
 }
