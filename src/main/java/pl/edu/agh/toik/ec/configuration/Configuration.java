@@ -14,7 +14,8 @@ public class Configuration {
     private CommunicationService communicationService;
     private AgentConfiguration agentConfiguration;
 
-    public Configuration(Topology topology, NamingService namingService, CommunicationService communicationService, AgentConfiguration agentConfiguration) {
+    public Configuration(Topology topology, NamingService namingService, CommunicationService communicationService,
+                         AgentConfiguration agentConfiguration) {
         this.topology = topology;
         this.namingService = namingService;
         this.communicationService = communicationService;

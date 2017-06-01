@@ -21,7 +21,7 @@ public interface Agent {
 
     public void receiveMessage(Message message);
 
-    public void sendMessage(String address, Message message);
+    public void sendMessage(Message message);
 
     public List<Message> getOutgoingMessages();
 

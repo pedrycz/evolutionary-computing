@@ -1,5 +1,6 @@
 package pl.edu.agh.toik.ec.workers;
 
+import pl.edu.agh.toik.ec.algorithm.Agent;
 import pl.edu.agh.toik.ec.algorithm.AgentImpl;
 import pl.edu.agh.toik.ec.configuration.AgentConfiguration;
 import pl.edu.agh.toik.ec.namingservice.NamingService;
@@ -20,14 +21,15 @@ public class AgentFactory {
     private AgentConfiguration agentConfiguration;
     private NamingService namingService;
 
-    public AgentFactory(Topology topology, String workerName, AgentConfiguration agentConfiguration, NamingService namingService) {
+    public AgentFactory(Topology topology, String workerName, AgentConfiguration agentConfiguration,
+                        NamingService namingService) {
         this.topology = topology;
         this.workerName = workerName;
         this.agentConfiguration = agentConfiguration;
         this.namingService = namingService;
     }
 
-    public AgentImpl getAgent(String name) {
+    public Agent getAgent(String name) {
         AgentImpl agentImpl = new AgentImpl();
         agentImpl.setNeighbours(topology.getNeightbours(name));
         ObservationType observationType = getObservationType(agentConfiguration.toString());
@@ -39,8 +41,8 @@ public class AgentFactory {
         return agentImpl;
     }
 
-    public HashMap<String, AgentImpl> getAgents(int numOfAgents) {
-        HashMap<String, AgentImpl> agents = new HashMap<>();
+    public HashMap<String, Agent> getAgents(int numOfAgents) {
+        HashMap<String, Agent> agents = new HashMap<>();
         for(int i = 0; i < numOfAgents; i++) {
             String name = "agent" + i;
             agents.put(name, getAgent(name));
@@ -49,6 +51,8 @@ public class AgentFactory {
     }
 
     private ObservationType getObservationType(String type) {
+        switch (type) {
+        }
         ObservationType observationType = new EventObservationType();
         return observationType;
     }

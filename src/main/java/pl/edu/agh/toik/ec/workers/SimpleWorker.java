@@ -1,5 +1,6 @@
 package pl.edu.agh.toik.ec.workers;
 
+import pl.edu.agh.toik.ec.algorithm.Agent;
 import pl.edu.agh.toik.ec.algorithm.AgentImpl;
 import pl.edu.agh.toik.ec.communication.CommunicationService;
 import pl.edu.agh.toik.ec.communication.Message;
@@ -15,20 +16,21 @@ public class SimpleWorker implements Worker {
     private StopCondition stopCondition;
     private Topology topology;
     private CommunicationService communicationService;
-    private HashMap<String, AgentImpl> agents;
+    private HashMap<String, Agent> agents;
     private AgentFactory agentFactory;
     private boolean active = false;
     private NamingService namingService;
 
-    public SimpleWorker(String name, StopCondition stopCondition, Topology topology, CommunicationService communicationService, NamingService namingService, AgentConfiguration agentConfiguration) {
+    public SimpleWorker(String name, StopCondition stopCondition, Topology topology,
+                        CommunicationService communicationService, NamingService namingService,
+                        AgentConfiguration agentConfiguration) {
 
         this.name = name;
         this.stopCondition = stopCondition;
         this.topology = topology;
         this.communicationService = communicationService;
         this.namingService = namingService;
-
-        this.agentFactory = new AgentFactory(topology, name, agentConfiguration);
+        this.agentFactory = new AgentFactory(topology, name, agentConfiguration, namingService);
     }
 
     public void createAgents(int numOfAgents) {
@@ -45,7 +47,7 @@ public class SimpleWorker implements Worker {
     @Override
     public void step() {
         if(checkStopCondition()) {
-            for (HashMap.Entry<String, AgentImpl> entry : agents.entrySet()) {
+            for (HashMap.Entry<String, Agent> entry : agents.entrySet()) {
                 entry.getValue().makeStep();
             }
             System.out.println("SimpleWorker " + name + " step");
@@ -54,12 +56,7 @@ public class SimpleWorker implements Worker {
         }
     }
 
-    //waiting for message to clarify
     @Override
-    public void sendMessage(Message msg) {
-
-    }
-
     public void sendMessage(SimpleMessage msg) {
         if(agents.containsKey(msg.getReceiver())) {
             agents.get(msg.getReceiver()).receiveMessage(msg);
@@ -78,13 +75,15 @@ public class SimpleWorker implements Worker {
         return this.active;
     }
 
+    public void stop() {
+        this.active = false;
+    }
 
-    public HashMap<String, AgentImpl> getAgents() {
+    public HashMap<String, Agent> getAgents() {
         return agents;
     }
 
-    public void setAgents(HashMap<String, AgentImpl> agents) {
-        this.agents = agents;
+    public String getName() {
+        return this.name;
     }
-
 }
