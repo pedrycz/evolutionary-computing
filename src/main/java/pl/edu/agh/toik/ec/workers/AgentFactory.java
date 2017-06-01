@@ -37,7 +37,7 @@ public class AgentFactory {
         agentImpl.setNeighbours(topology.getNeightbours(name));
 
         //Agent config
-        
+
 
         //AgentProperty config
         ObservationType observationType = getObservationType(agentConfiguration.toString());
