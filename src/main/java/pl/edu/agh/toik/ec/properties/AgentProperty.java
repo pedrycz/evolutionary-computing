@@ -12,13 +12,11 @@ public class AgentProperty<T> extends Property<T> {
     private final String parameterName;
     private final Agent agent;
     private final ObservationType observationType;
-    private final String starterId;
 
-    public AgentProperty(String agentParameter, Agent agent, ObservationType observationType, String starterId) {
+    public AgentProperty(String agentParameter, Agent agent, ObservationType observationType) {
         this.parameterName = agentParameter;
         this.agent = agent;
         this.observationType = observationType;
-        this.starterId = starterId;
     }
 
     @Override
@@ -40,7 +38,6 @@ public class AgentProperty<T> extends Property<T> {
             this.parameterName = parameterName;
             this.value = value;
             this.timestamp = new Date().getTime();
-            this.setTargetWorkerName(starterId);
         }
 
         @Override
