@@ -10,6 +10,8 @@ public class AgentConfiguration {
     private int populationSize;
     private int populationDimension;
     private PopulationGenerationStrategy populationGenerationStrategy;
+    private String agentParameter;
+    private String observationType;
 
 
 }
