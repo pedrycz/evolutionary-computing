@@ -23,20 +23,17 @@ public class SimpleStarter implements Starter {
     private final int agentPerWorker;
     private final List<StopCondition> stopConditionList;
     private Configuration configuration;
-    private final EmigrateStrategy emigrateStrategy;
 
     public SimpleStarter(List<StopCondition> stopConditionList,
                          Visualization visualisation,
                          TopologyService topologyService,
                          Configuration configuration,
-                         int agentPerWorker,
-                         EmigrateStrategy emigrateStrategy) {
+                         int agentPerWorker) {
         this.stopConditionList = stopConditionList;
         this.visualisation = visualisation;
         this.topologyService = topologyService;
         this.configuration = configuration;
         this.agentPerWorker = agentPerWorker;
-        this.emigrateStrategy = emigrateStrategy;
     }
 
     @Override
@@ -45,7 +42,6 @@ public class SimpleStarter implements Starter {
 
         Topology topology = topologyService.getTopology(configuration.getNamingService().getAgentsIds());
         configuration = configuration.withTopology(topology);
-        configuration = configuration.withEmigrateStrategy(emigrateStrategy);
 
         List<Worker> workers = new ArrayList<>();
         for(int i = 0; i < stopConditionList.size(); i++) {
