@@ -20,7 +20,7 @@ public class ImigrateIndividuals implements ImigrationService {
     }
 
     private void imigrate(List<Individual> population, MigrationMessage message) {
-        List<Individual> imigratedIndividuals = message.getContent();
+        List<Individual> imigratedIndividuals = message.getIndividuals();
         population.addAll(imigratedIndividuals);
 
     }

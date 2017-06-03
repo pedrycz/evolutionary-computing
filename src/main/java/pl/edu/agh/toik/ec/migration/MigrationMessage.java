@@ -4,50 +4,26 @@ import java.util.Date;
 import java.util.List;
 import pl.edu.agh.toik.ec.algorithm.Individual;
 import pl.edu.agh.toik.ec.communication.Message;
+import pl.edu.agh.toik.ec.workers.SimpleMessage;
 
-public class MigrationMessage extends Message {
-    String sender;
-    String receiver;
-    Date timeStamp;
-    List<Individual> content;
+public class MigrationMessage extends SimpleMessage {
+    private List<Individual> individuals;
 
     public MigrationMessage(String sender, String receiver, List<Individual> content, Date timeStamp) {
-        this.sender = sender;
-        this.receiver = receiver;
-        this.content = content;
-        this.timeStamp = timeStamp;
+        super.setSender(sender);
+        super.setReceiver(receiver);
+        super.setContent("MigrationMessage");
+        super.setTimeStamp(timeStamp);
+        this.individuals = content;
+
     }
 
-    public String getSender() {
-        return sender;
+    public List<Individual> getIndividuals() {
+        return individuals;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public String getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
-
-    public Date getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public List<Individual> getContent() {
-        return content;
-    }
-
-    public void setContent(List<Individual> content) {
-        this.content = content;
+    public void setIndividuals(List<Individual> content) {
+        this.individuals = content;
     }
 
 }
