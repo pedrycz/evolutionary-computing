@@ -11,6 +11,7 @@ public class ImigrateIndividuals implements ImigrationService {
         for (Message message : agent.getIncomingMessages()) {
             if(isOurMessage(message)){
                 imigrate(population, (MigrationMessage) message);
+                agent.consumeIncomingMessage(message);
             }
         }
     }
