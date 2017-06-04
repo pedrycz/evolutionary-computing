@@ -1,5 +1,6 @@
 package pl.edu.agh.toik.ec.configuration;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -10,6 +11,14 @@ public class PropertyConfigurationImpl implements PropertyConfiguration {
     private boolean isObserved;
     private String observationTypeName;
     private Map<String, String> observationArguments;
+
+    public PropertyConfigurationImpl(boolean isObserved) {
+        this(isObserved, null);
+    }
+
+    public PropertyConfigurationImpl(boolean isObserved, String observationTypeName) {
+        this(isObserved, observationTypeName, new HashMap<>());
+    }
 
     public PropertyConfigurationImpl(boolean isObserved, String observationTypeName, Map<String, String> observationArguments) {
         this.isObserved = isObserved;

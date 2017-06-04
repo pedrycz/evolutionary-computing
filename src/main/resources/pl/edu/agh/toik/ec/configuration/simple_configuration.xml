@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!-- Communication -->
 
@@ -82,8 +79,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                         <constructor-arg index="1" type="java.lang.String" value="LIMITED"/>
                         <constructor-arg index="2">
                             <map>
-                                <entry key="observationArgumentKey1" value="observationArgumentValue1"/>
-                                <entry key="observationArgumentKey2" value="observationArgumentValue2"/>
+                                <entry key="min" value="0"/>
+                                <entry key="max" value="100"/>
                             </map>
                         </constructor-arg>
                     </bean>
@@ -92,12 +89,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                     <bean class="pl.edu.agh.toik.ec.configuration.PropertyConfigurationImpl">
                         <constructor-arg index="0" type="boolean" value="true"/>
                         <constructor-arg index="1" type="java.lang.String" value="EVENT"/>
-                        <constructor-arg index="2">
-                            <map>
-                                <entry key="observationArgumentKey3" value="observationArgumentValue4"/>
-                                <entry key="observationArgumentKey4" value="observationArgumentValue3"/>
-                            </map>
-                        </constructor-arg>
+                    </bean>
+                </entry>
+                <entry key="POPULATION_DIVERSITY">
+                    <bean class="pl.edu.agh.toik.ec.configuration.PropertyConfigurationImpl">
+                        <constructor-arg index="0" type="boolean" value="false"/>
                     </bean>
                 </entry>
             </map>
