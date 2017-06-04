@@ -2,6 +2,7 @@ package pl.edu.agh.toik.ec.workers;
 
 import pl.edu.agh.toik.ec.algorithm.Agent;
 import pl.edu.agh.toik.ec.algorithm.AgentImpl;
+import pl.edu.agh.toik.ec.algorithm.AlgorithmStep;
 import pl.edu.agh.toik.ec.algorithm.Property;
 import pl.edu.agh.toik.ec.configuration.AgentConfiguration;
 import pl.edu.agh.toik.ec.configuration.Configuration;
@@ -39,12 +40,19 @@ public class AgentFactory {
         agentImpl.setNeighbours(topology.getNeightbours(name));
 
         //Agent config
-
+        agentImpl.setPopulationDimension(agentConfiguration.getPopulationDimension());
+        agentImpl.setPopulationGenerationStrategy(agentConfiguration.getPopulationGenerationStrategy());
+        agentImpl.setPopulationSize(agentConfiguration.getPopulationSize());
+        for (AlgorithmStep step : agentConfiguration.getAlgorithmSteps()) {
+            agentImpl.addStep(step);
+        }
 
         //AgentProperty config
         agentImpl.setBestFitnessProperty(createAgentProperty(agentImpl, AgentParameter.BEST_FITNESS));
         agentImpl.setWorstFitnessProperty(createAgentProperty(agentImpl, AgentParameter.WORST_FITNESS));
         agentImpl.setPopulationDiversityProperty(createAgentProperty(agentImpl, AgentParameter.POPULATION_DIVERSITY));
+
+        agentImpl.setup();
 
         return agentImpl;
     }
