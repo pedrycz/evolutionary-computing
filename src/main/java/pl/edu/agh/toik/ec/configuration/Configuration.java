@@ -16,16 +16,8 @@ public class Configuration {
     private final AgentConfiguration agentConfiguration;
     private final EmigrateStrategy emigrateStrategy;
 
-    public Configuration(NamingService namingService, CommunicationService communicationService, AgentConfiguration agentConfiguration) {
-        this(null, null, namingService, communicationService, agentConfiguration);
-    }
-
-    public Configuration(Topology topology, NamingService namingService, CommunicationService communicationService, AgentConfiguration agentConfiguration) {
-        this.namingService = namingService;
-        this.communicationService = communicationService;
-        this.agentConfiguration = agentConfiguration;
-        this.topology = topology;
-        this.emigrateStrategy = null;
+    public Configuration(EmigrateStrategy emigrateStrategy, NamingService namingService, CommunicationService communicationService, AgentConfiguration agentConfiguration) {
+        this(emigrateStrategy, null, namingService, communicationService, agentConfiguration);
     }
 
     public Configuration(EmigrateStrategy emigrateStrategy, Topology topology, NamingService namingService, CommunicationService communicationService, AgentConfiguration agentConfiguration) {
@@ -37,10 +29,6 @@ public class Configuration {
     }
 
     public Configuration withTopology(Topology topology) {
-        return new Configuration(topology, namingService, communicationService, agentConfiguration);
-    }
-
-    public Configuration withEmigrateStrategy(EmigrateStrategy emigrateStrategy) {
         return new Configuration(emigrateStrategy, topology, namingService, communicationService, agentConfiguration);
     }
 
