@@ -23,13 +23,13 @@ public class AgentFactory {
 
 
     private Topology topology;
-    private String workerName;
+    private SimpleWorker worker;
     private AgentConfiguration agentConfiguration;
     private NamingService namingService;
 
-    public AgentFactory(Configuration configuration, String workerName) {
+    public AgentFactory(Configuration configuration, SimpleWorker worker) {
         this.topology = configuration.getTopology();
-        this.workerName = workerName;
+        this.worker = worker;
         this.agentConfiguration = configuration.getAgentConfiguration();
         this.namingService = configuration.getNamingService();
     }
@@ -46,6 +46,7 @@ public class AgentFactory {
         for (AlgorithmStep step : agentConfiguration.getAlgorithmSteps()) {
             agentImpl.addStep(step);
         }
+        agentImpl.setWorker(worker);
 
         //AgentProperty config
         agentImpl.setBestFitnessProperty(createAgentProperty(agentImpl, AgentParameter.BEST_FITNESS));
@@ -60,7 +61,7 @@ public class AgentFactory {
     public HashMap<String, Agent> getAgents(int numOfAgents) {
         HashMap<String, Agent> agents = new HashMap<>();
         for (int i = 0; i < numOfAgents; i++) {
-            String name = namingService.getAgentId(workerName, i);
+            String name = namingService.getAgentId(worker.getWorkerName(), i);
             agents.put(name, getAgent(name));
         }
         return agents;

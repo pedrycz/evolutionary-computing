@@ -24,7 +24,7 @@ public class SimpleWorker implements Worker {
         this.communicationService = configuration.getCommunicationService();
         this.namingService = configuration.getNamingService();
 
-        this.agentFactory = new AgentFactory(configuration, name);
+        this.agentFactory = new AgentFactory(configuration, this);
     }
 
     public void createAgents(int numOfAgents) {
@@ -79,6 +79,10 @@ public class SimpleWorker implements Worker {
 
     public void setAgents(HashMap<String, Agent> agents) {
         this.agents = agents;
+    }
+
+    public String getWorkerName() {
+        return this.name;
     }
 
 }
