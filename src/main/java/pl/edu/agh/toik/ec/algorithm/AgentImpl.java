@@ -58,7 +58,8 @@ public class AgentImpl implements Agent {
         for (AlgorithmStep step : algorithmSteps)
             step.process(this, population);
         calculatePopulationDiversity();
-        calculateFitnessProperties();
+        calculateBestFitnessProperty();
+        calculateWorstFitnessProperty();
         flushOutgoingMessages();
     }
 
@@ -69,9 +70,13 @@ public class AgentImpl implements Agent {
         outgoingMessages.clear();
     }
 
-    private void calculateFitnessProperties() {
+    private void calculateBestFitnessProperty() {
         DoubleStream populationFitnessStream = population.stream().mapToDouble(INDIVIDUAL_TO_FITNESS_FUNCTION);
         bestFitnessProperty.setValue(populationFitnessStream.max().orElseGet(null));
+    }
+    
+    private void calculateWorstFitnessProperty() {
+        DoubleStream populationFitnessStream = population.stream().mapToDouble(INDIVIDUAL_TO_FITNESS_FUNCTION);
         worstFitnessProperty.setValue(populationFitnessStream.min().orElseGet(null));
     }
 
