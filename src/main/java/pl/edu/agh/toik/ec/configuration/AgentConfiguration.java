@@ -3,7 +3,7 @@ package pl.edu.agh.toik.ec.configuration;
 import pl.edu.agh.toik.ec.algorithm.AlgorithmStep;
 import pl.edu.agh.toik.ec.algorithm.generation.PopulationGenerationStrategy;
 
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,9 +15,9 @@ public class AgentConfiguration {
     private final int populationDimension;
     private final PopulationGenerationStrategy populationGenerationStrategy;
     private final Map<AgentParameter, PropertyConfiguration> parameterConfiguration;
-    private final LinkedList<AlgorithmStep> algorithmSteps;
+    private final List<AlgorithmStep> algorithmSteps;
 
-    public AgentConfiguration(int populationSize, int populationDimension, PopulationGenerationStrategy populationGenerationStrategy, Map<AgentParameter, PropertyConfiguration> parameterConfiguration, LinkedList<AlgorithmStep> algorithmSteps) {
+    public AgentConfiguration(int populationSize, int populationDimension, PopulationGenerationStrategy populationGenerationStrategy, Map<AgentParameter, PropertyConfiguration> parameterConfiguration, List<AlgorithmStep> algorithmSteps) {
         this.populationSize = populationSize;
         this.populationDimension = populationDimension;
         this.populationGenerationStrategy = populationGenerationStrategy;
@@ -41,8 +41,7 @@ public class AgentConfiguration {
         return parameterConfiguration;
     }
 
-    public LinkedList<AlgorithmStep> getAlgorithmSteps() {
+    public List<AlgorithmStep> getAlgorithmSteps() {
         return algorithmSteps;
     }
-
 }

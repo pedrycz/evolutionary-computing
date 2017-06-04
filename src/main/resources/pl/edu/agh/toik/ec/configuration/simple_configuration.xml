@@ -102,6 +102,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 </entry>
             </map>
         </constructor-arg>
+        <constructor-arg index="4">
+            <list>
+                <bean class="pl.edu.agh.toik.ec.algorithm.crossover.SinglePointCrossoverStrategy"/>
+                <bean class="pl.edu.agh.toik.ec.algorithm.evaluation.RastriginEvaluationStrategy"/>
+            </list>
+        </constructor-arg>
     </bean>
 
     <!-- Configuration -->
