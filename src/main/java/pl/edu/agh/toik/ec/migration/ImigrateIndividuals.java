@@ -11,6 +11,7 @@ public class ImigrateIndividuals implements ImigrationService {
         for (Message message : agent.getIncomingMessages()) {
             if(isOurMessage(message)){
                 imigrate(population, (MigrationMessage) message);
+                agent.consumeIncomingMessage(message);
             }
         }
     }
@@ -20,7 +21,7 @@ public class ImigrateIndividuals implements ImigrationService {
     }
 
     private void imigrate(List<Individual> population, MigrationMessage message) {
-        List<Individual> imigratedIndividuals = message.getContent();
+        List<Individual> imigratedIndividuals = message.getIndividuals();
         population.addAll(imigratedIndividuals);
 
     }

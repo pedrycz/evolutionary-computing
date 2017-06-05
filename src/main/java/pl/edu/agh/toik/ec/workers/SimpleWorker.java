@@ -1,11 +1,9 @@
 package pl.edu.agh.toik.ec.workers;
 
-import pl.edu.agh.toik.ec.algorithm.AgentImpl;
+import pl.edu.agh.toik.ec.algorithm.Agent;
 import pl.edu.agh.toik.ec.communication.CommunicationService;
-import pl.edu.agh.toik.ec.communication.Message;
 import pl.edu.agh.toik.ec.configuration.Configuration;
 import pl.edu.agh.toik.ec.namingservice.NamingService;
-import pl.edu.agh.toik.ec.topology.Topology;
 
 import java.util.HashMap;
 
@@ -13,9 +11,8 @@ public class SimpleWorker implements Worker {
 
     private String name;
     private StopCondition stopCondition;
-    private Topology topology;
     private CommunicationService communicationService;
-    private HashMap<String, AgentImpl> agents;
+    private HashMap<String, Agent> agents;
     private AgentFactory agentFactory;
     private boolean active = false;
     private NamingService namingService;
@@ -24,11 +21,10 @@ public class SimpleWorker implements Worker {
 
         this.name = name;
         this.stopCondition = stopCondition;
-        this.topology = configuration.getTopology();
         this.communicationService = configuration.getCommunicationService();
         this.namingService = configuration.getNamingService();
 
-        this.agentFactory = new AgentFactory(topology, name);
+        this.agentFactory = new AgentFactory(configuration, this);
     }
 
     public void createAgents(int numOfAgents) {
@@ -49,19 +45,13 @@ public class SimpleWorker implements Worker {
     @Override
     public void step() {
         if(checkStopCondition()) {
-            for (HashMap.Entry<String, AgentImpl> entry : agents.entrySet()) {
+            for (HashMap.Entry<String, Agent> entry : agents.entrySet()) {
                 entry.getValue().makeStep();
             }
             System.out.println("SimpleWorker " + name + " step");
         } else {
             active = false;
         }
-    }
-
-    //waiting for message to clarify
-    @Override
-    public void sendMessage(Message msg) {
-
     }
 
     public void sendMessage(SimpleMessage msg) {
@@ -83,12 +73,16 @@ public class SimpleWorker implements Worker {
     }
 
 
-    public HashMap<String, AgentImpl> getAgents() {
+    public HashMap<String, Agent> getAgents() {
         return agents;
     }
 
-    public void setAgents(HashMap<String, AgentImpl> agents) {
+    public void setAgents(HashMap<String, Agent> agents) {
         this.agents = agents;
+    }
+
+    public String getWorkerName() {
+        return this.name;
     }
 
 }

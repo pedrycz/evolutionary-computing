@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class CompetitionEmigrateStrategy implements EmigrateStrategy{
-    int numberOfPairs;
+    private int numberOfPairs;
 
     public CompetitionEmigrateStrategy(int numberOfPairs){
         this.numberOfPairs = numberOfPairs;

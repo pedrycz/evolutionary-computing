@@ -10,7 +10,7 @@ public interface Worker {
 
     void step();
 
-    void sendMessage(Message msg);
+    void sendMessage(SimpleMessage msg);
 
     boolean checkStopCondition();
 
