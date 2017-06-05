@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -14,6 +15,8 @@ import pl.edu.agh.toik.ec.visualization.conf.VisualizationConst;
  * Created by baran on 09.05.17.
  */
 public class VisualizationImpl implements Visualization {
+	public static final Logger LOG = Logger.getLogger(VisualizationImpl.class);
+
 	private VisualizationStrategy strategy;
 	private VisualizationType type;
 
@@ -34,14 +37,18 @@ public class VisualizationImpl implements Visualization {
 	@Override
 	public void notify(Message message) {
 		strategy.addObserver(this);
-		strategy.interpretMessage(new VisualizationMessage(message));
+		try {
+			strategy.interpretMessage(VisualizationMessage.parse(message));
+		} catch (VisualizationMessageParseException e) {
+			LOG.error("Visualization received unparsable message of type " + message.getClass().getSimpleName());
+		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		cache.add((VisualizationMessage) arg);
 		if (template == null) // TODO confirm possibility
-			System.out.println("[VisualizationImpl] template is null!");
+			LOG.error("[VisualizationImpl.update] template is null!");
 		else
 			template.convertAndSend(VisualizationConst.WS_ENDPOINT_FITNESS, arg);
 	}

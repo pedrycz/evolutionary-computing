@@ -2,18 +2,37 @@ package pl.edu.agh.toik.ec.visualization;
 
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 import pl.edu.agh.toik.ec.communication.Message;
+import pl.edu.agh.toik.ec.workers.SimpleMessage;
 
 public class VisualizationMessage {
-    public String workerId;
-    public int timestamp;
-    public double fitness;
+	public static final Logger LOG = Logger.getLogger(VisualizationMessage.class);
+	
+	public String workerId;
+	public long timestamp;
+	public double fitness;
 
-    public VisualizationMessage(Message rawData) {
-	workerId = rawData.getWorkerName();
-	// TODO implement
-	Random random = new Random();
-	timestamp = (int) (System.currentTimeMillis() / 1000);
-	fitness = random.nextDouble();
-    }
+	public static VisualizationMessage parse(Message rawData) throws VisualizationMessageParseException {
+		VisualizationMessage m = new VisualizationMessage();
+		m.workerId = rawData.getWorkerName();
+		if (rawData instanceof SimpleMessage) {
+			SimpleMessage simpleMessage = (SimpleMessage) rawData;
+			m.timestamp = simpleMessage.getTimeStamp().getTime();
+			try {
+				m.fitness = Double.parseDouble(simpleMessage.getContent());
+			} catch (NumberFormatException e) {
+				LOG.debug(e.getMessage());
+				LOG.error("Failed to parse double from message content. Continuing anyway with fake data.");
+				Random random = new Random();
+				m.fitness = random.nextDouble();
+			}
+		} else {
+			throw new VisualizationMessageParseException();
+		}
+		return m;
+	}
+	
+	private VisualizationMessage() {}
 }
