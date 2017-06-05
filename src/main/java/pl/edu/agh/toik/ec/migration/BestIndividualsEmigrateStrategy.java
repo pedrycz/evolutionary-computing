@@ -7,11 +7,11 @@ import java.util.Comparator;
 import java.util.List;
 
 public class BestIndividualsEmigrateStrategy implements EmigrateStrategy {
-    int nuberOfBestIndividualsToEmirate;
+    private int nuberOfBestIndividualsToEmirate;
 
     public BestIndividualsEmigrateStrategy(int nuberOfBestIndividualsToEmirate){
         this.nuberOfBestIndividualsToEmirate = nuberOfBestIndividualsToEmirate;
-        System.out.println("[INFO] Select BestIndividualsEmigrateStrategy");
+        System.out.println("[INFO] Select BestIndividualsEmigrateStrategy ");
     }
 
     public List<Individual> selectIndividuals(List<Individual> individuals) {

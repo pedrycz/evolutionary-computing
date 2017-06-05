@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 public class EmigrationIndividuals implements EmigrationService {
-    Agent agent;
-    EmigrateStrategy emigrateStrategy;
+    private Agent agent;
+    private EmigrateStrategy emigrateStrategy;
 
     public EmigrationIndividuals(EmigrateStrategy emigrateStrategy){
         this.emigrateStrategy = emigrateStrategy;
@@ -19,14 +19,14 @@ public class EmigrationIndividuals implements EmigrationService {
         List<Individual> selectedIndividuals = emigrateStrategy.selectIndividuals(population);
         List<MigrationMessage> migrationMessages = createMessages(selectedIndividuals);
         for(MigrationMessage migrationMessage : migrationMessages){
-            agent.sendMessage(migrationMessage.getReceiver(),migrationMessage);
+            agent.sendMessage(migrationMessage);
         }
     }
 
     private List<MigrationMessage> createMessages(List<Individual> individuals){
         List<MigrationMessage> migrationMessages = new ArrayList<MigrationMessage>();
-        for(Agent receiverAgent : agent.getNeighbours()){
-            migrationMessages.add(new MigrationMessage(agent.getName(), receiverAgent.getName(), individuals, new Date()));
+        for(String receiverAgent : agent.getNeighbours()){
+            migrationMessages.add(new MigrationMessage(agent.getName(), receiverAgent, individuals, new Date()));
         }
         return  migrationMessages;
     }

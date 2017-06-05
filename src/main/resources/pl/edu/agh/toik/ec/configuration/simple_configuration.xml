@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!-- Communication -->
 
@@ -69,10 +66,13 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <!-- Agent configuration -->
 
     <bean id="agentConfig" class="pl.edu.agh.toik.ec.configuration.AgentConfiguration">
-        <constructor-arg index="0" type="int" value="10"/>
+        <constructor-arg index="0" type="int" value="200"/>
         <constructor-arg index="1" type="int" value="10"/>
         <constructor-arg index="2" type="pl.edu.agh.toik.ec.algorithm.generation.PopulationGenerationStrategy">
-            <bean class="pl.edu.agh.toik.ec.algorithm.generation.RandomPopulationGenerationStrategy"/>
+            <bean class="pl.edu.agh.toik.ec.algorithm.generation.RandomPopulationGenerationStrategy">
+                <property name = "parameterMax" value = "5.12"/>
+                <property name = "parameterMin" value = "-5.12"/>
+            </bean>
         </constructor-arg>
         <constructor-arg index="3">
             <map>
@@ -82,8 +82,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                         <constructor-arg index="1" type="java.lang.String" value="LIMITED"/>
                         <constructor-arg index="2">
                             <map>
-                                <entry key="observationArgumentKey1" value="observationArgumentValue1"/>
-                                <entry key="observationArgumentKey2" value="observationArgumentValue2"/>
+                                <entry key="min" value="0"/>
+                                <entry key="max" value="100"/>
                             </map>
                         </constructor-arg>
                     </bean>
@@ -92,20 +92,34 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                     <bean class="pl.edu.agh.toik.ec.configuration.PropertyConfigurationImpl">
                         <constructor-arg index="0" type="boolean" value="true"/>
                         <constructor-arg index="1" type="java.lang.String" value="EVENT"/>
-                        <constructor-arg index="2">
-                            <map>
-                                <entry key="observationArgumentKey3" value="observationArgumentValue4"/>
-                                <entry key="observationArgumentKey4" value="observationArgumentValue3"/>
-                            </map>
-                        </constructor-arg>
+                    </bean>
+                </entry>
+                <entry key="POPULATION_DIVERSITY">
+                    <bean class="pl.edu.agh.toik.ec.configuration.PropertyConfigurationImpl">
+                        <constructor-arg index="0" type="boolean" value="false"/>
                     </bean>
                 </entry>
             </map>
         </constructor-arg>
         <constructor-arg index="4">
             <list>
-                <bean class="pl.edu.agh.toik.ec.algorithm.crossover.SinglePointCrossoverStrategy"/>
-                <bean class="pl.edu.agh.toik.ec.algorithm.evaluation.RastriginEvaluationStrategy"/>
+                <bean class="pl.edu.agh.toik.ec.algorithm.crossover.TwoPointCrossoverStrategy">
+                    <property name = "birthRatio" value = "0.2"/>
+                </bean>
+                <bean class="pl.edu.agh.toik.ec.algorithm.mutation.AllPointsMutationStrategy">
+                    <property name = "mutationRatio" value = "0.2"/>
+                    <property name = "parameterMax" value = "0.001"/>
+                    <property name = "parameterMin" value = "-0.001"/>
+                </bean>
+                <bean class="pl.edu.agh.toik.ec.algorithm.constraint.BasicConstraintStrategy">
+                    <property name = "parameterMax" value = "5.12"/>
+                    <property name = "parameterMin" value = "-5.12"/>
+                </bean>
+                <bean class="pl.edu.agh.toik.ec.algorithm.evaluation.RastriginEvaluationStrategy">
+                </bean>
+                <bean class="pl.edu.agh.toik.ec.algorithm.selection.ElitistSelectionStrategy">
+                    <property name = "selectionType" value = "MINIMUM"/>
+                </bean>
             </list>
         </constructor-arg>
     </bean>
@@ -125,10 +139,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <constructor-arg index="0">
             <list>
                 <bean class="pl.edu.agh.toik.ec.workers.IterationCondition">
-                    <constructor-arg type="int" value="10"/>
+                    <constructor-arg type="int" value="100"/>
                 </bean>
                 <bean class="pl.edu.agh.toik.ec.workers.IterationCondition">
-                    <constructor-arg type="int" value="5"/>
+                    <constructor-arg type="int" value="100"/>
                 </bean>
             </list>
         </constructor-arg>

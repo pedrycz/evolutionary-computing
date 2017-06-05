@@ -4,27 +4,27 @@ import pl.edu.agh.toik.ec.properties.ObservationType;
 
 public class LimitedObservationType implements ObservationType {
 
-    private final int min;
-    private final int max;
+    private final double min;
+    private final double max;
 
-    public LimitedObservationType(int min, int max) {
+    public LimitedObservationType(double min, double max) {
         this.min = min;
         this.max = max;
     }
 
-    public static LimitedObservationType getMaxQueryType(int max) {
-        return new LimitedObservationType(java.lang.Integer.MIN_VALUE, max);
+    public static LimitedObservationType getMaxQueryType(double max) {
+        return new LimitedObservationType(java.lang.Double.MIN_VALUE, max);
     }
 
-    public static LimitedObservationType getMinQueryType(int min) {
-        return new LimitedObservationType(min, java.lang.Integer.MAX_VALUE);
+    public static LimitedObservationType getMinQueryType(double min) {
+        return new LimitedObservationType(min, java.lang.Double.MAX_VALUE);
     }
 
     @Override
     public boolean check(Object value) {
         try {
-            Integer intValue = (Integer) value;
-            return !(intValue >= min && intValue <= max);
+            Double doubleValue = (Double) value;
+            return !(doubleValue >= min && doubleValue <= max);
         } catch (ClassCastException e) {
             return false;
         }
