@@ -6,8 +6,10 @@ import java.util.Observable;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
+import pl.edu.agh.toik.ec.algorithm.selection.SelectionStrategy.SelectionType;
 import pl.edu.agh.toik.ec.communication.Message;
 import pl.edu.agh.toik.ec.visualization.conf.VisualizationConst;
 
@@ -25,12 +27,15 @@ public class VisualizationImpl implements Visualization {
 	@Autowired
 	private SimpMessagingTemplate template;
 
+	private SelectionType selectionType;
+
 	public VisualizationImpl() {
 	}
 
-	public VisualizationImpl(VisualizationStrategy strategy, VisualizationType type) {
+	public VisualizationImpl(VisualizationStrategy strategy, VisualizationType type, SelectionType selectionType) {
 		this.strategy = strategy;
 		this.type = type;
+		this.selectionType = selectionType;
 		strategy.addObserver(this);
 	}
 
@@ -56,6 +61,11 @@ public class VisualizationImpl implements Visualization {
 	@Override
 	public VisualizationType getType() {
 		return type;
+	}
+
+	@Override
+	public SelectionType getSelectionType() {
+		return selectionType;
 	}
 
 	@Override

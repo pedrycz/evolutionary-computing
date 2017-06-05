@@ -12,11 +12,11 @@ public class BestOfStrategy extends AbstractStrategy implements Runnable {
 	private VisualizationMessage bestSoFar;
 	private final ScheduledExecutorService scheduler;
 	private Boolean received;
-	private Integer currentTimestamp;
-	
+	private Long currentTimestamp;
+
 	public BestOfStrategy(int backoffInSeconds) {
 		this.backoff = backoffInSeconds;
-		scheduler = Executors.newScheduledThreadPool(1);//TODO Springify
+		scheduler = Executors.newScheduledThreadPool(1);// TODO Springify
 		received = false;
 		scheduler.scheduleAtFixedRate(this, backoff, backoff, TimeUnit.SECONDS);
 	}
@@ -24,8 +24,8 @@ public class BestOfStrategy extends AbstractStrategy implements Runnable {
 	@Override
 	public void interpretMessage(VisualizationMessage message) {
 		VisualizationMessage notify = null;
-		synchronized(this) {
-			if(currentTimestamp == null) {
+		synchronized (this) {
+			if (currentTimestamp == null) {
 				bestSoFar = message;
 				currentTimestamp = message.timestamp;
 			} else if (message.timestamp > currentTimestamp) {
@@ -37,22 +37,25 @@ public class BestOfStrategy extends AbstractStrategy implements Runnable {
 			}
 			received = true;
 		}
-		if(notify != null)
+		if (notify != null) {
+			setChanged();
 			notifyObservers(notify);
+		}
 	}
 
 	@Override
 	public void run() {
 		VisualizationMessage notify = null;
-		synchronized(this) {
-			if(received && bestSoFar != null) {
+		synchronized (this) {
+			if (received && bestSoFar != null) {
 				notify = bestSoFar;
 				bestSoFar = null;
 			}
 			received = false;
 		}
-		if(notify != null)
+		if (notify != null) {
+			setChanged();
 			notifyObservers(notify);
+		}
 	}
 }
-

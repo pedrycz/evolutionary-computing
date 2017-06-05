@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.edu.agh.toik.ec.algorithm.selection.SelectionStrategy.SelectionType;
 import pl.edu.agh.toik.ec.visualization.Visualization;
 import pl.edu.agh.toik.ec.visualization.VisualizationMessage;
 
@@ -30,8 +31,8 @@ public class HttpController {
 
 	@RequestMapping("/config")
 	public ConfigEndpoint getConfig() {
-		// TODO bind biggerConfigIsBetter with appropriate configuration
-		return new ConfigEndpoint(visualization.getType().getClass().getSimpleName(), true);
+		return new ConfigEndpoint(visualization.getType().getClass().getSimpleName(),
+				visualization.getType().equals(SelectionType.MAXIMUM));
 	}
 
 	public class ConfigEndpoint {
