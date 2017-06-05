@@ -17,6 +17,7 @@ public class HttpController {
 	@Autowired
 	private Visualization visualization;
 
+	// TODO remove method
 	@RequestMapping("/type")
 	public String getVisualizationType() {
 		return visualization.getType().getClass().getSimpleName();
@@ -25,5 +26,21 @@ public class HttpController {
 	@RequestMapping("/messages")
 	public List<VisualizationMessage> getMessages() {
 		return visualization.getMessages();
+	}
+
+	@RequestMapping("/config")
+	public ConfigEndpoint getConfig() {
+		// TODO bind biggerConfigIsBetter with appropriate configuration
+		return new ConfigEndpoint(visualization.getType().getClass().getSimpleName(), true);
+	}
+
+	public class ConfigEndpoint {
+		public final String type;
+		public final Boolean biggerFitnessIsBetter;
+
+		public ConfigEndpoint(String type, Boolean biggerFitnessIsBetter) {
+			this.type = type;
+			this.biggerFitnessIsBetter = biggerFitnessIsBetter;
+		}
 	}
 }
