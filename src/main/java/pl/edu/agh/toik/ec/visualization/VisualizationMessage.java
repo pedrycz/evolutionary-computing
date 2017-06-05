@@ -8,6 +8,11 @@ import pl.edu.agh.toik.ec.communication.Message;
 import pl.edu.agh.toik.ec.properties.PropertyMessage;
 import pl.edu.agh.toik.ec.workers.SimpleMessage;
 
+/**
+ * Represents internal system message parsed for visualization purposes.
+ * 
+ * @author Andrzej Duda
+ */
 public class VisualizationMessage {
 	public static final Logger LOG = Logger.getLogger(VisualizationMessage.class);
 
@@ -19,11 +24,13 @@ public class VisualizationMessage {
 		VisualizationMessage m = new VisualizationMessage();
 		m.workerId = rawData.getWorkerName();
 		if (rawData instanceof PropertyMessage) {
-			PropertyMessage propertyMessage = (PropertyMessage) rawData;
+			PropertyMessage propertyMessage = (PropertyMessage) rawData; // TODO
+																			// parametrized
+																			// casting
 			m.timestamp = propertyMessage.getTimeStamp().getTime();
 			// TODO if possible user sender field for m.workerId
 			try {
-				m.fitness = (Double)propertyMessage.getValue();
+				m.fitness = (Double) propertyMessage.getValue();
 			} catch (ClassCastException e) {
 				randomData(m);
 			}
@@ -40,7 +47,8 @@ public class VisualizationMessage {
 		}
 		return m;
 	}
-	
+
+	// TODO remove this method when it is no longer useful
 	private static void randomData(VisualizationMessage m) {
 		LOG.error("Failed to parse double from message content. Continuing anyway with fake data.");
 		Random random = new Random();

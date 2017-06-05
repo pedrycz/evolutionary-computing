@@ -6,7 +6,6 @@ import java.util.Observable;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import pl.edu.agh.toik.ec.algorithm.selection.SelectionStrategy.SelectionType;
@@ -21,13 +20,15 @@ public class VisualizationImpl implements Visualization {
 
 	private VisualizationStrategy strategy;
 	private VisualizationType type;
+	private SelectionType selectionType;
 
 	private List<VisualizationMessage> cache = new ArrayList<>();
 
+	/**
+	 * Responsible for sending WebSocket messages.
+	 */
 	@Autowired
 	private SimpMessagingTemplate template;
-
-	private SelectionType selectionType;
 
 	public VisualizationImpl() {
 	}
@@ -39,6 +40,9 @@ public class VisualizationImpl implements Visualization {
 		strategy.addObserver(this);
 	}
 
+	/**
+	 * Receiving and parsing messages. Sending them to strategy for evaluation.
+	 */
 	@Override
 	public void notify(Message message) {
 		strategy.addObserver(this);
@@ -49,6 +53,10 @@ public class VisualizationImpl implements Visualization {
 		}
 	}
 
+	/**
+	 * Storing and sending messages approved by VisualizationStrategy to
+	 * WebSocket clients.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		cache.add((VisualizationMessage) arg);

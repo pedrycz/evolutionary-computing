@@ -12,6 +12,10 @@ import pl.edu.agh.toik.ec.visualization.Visualization;
 import pl.edu.agh.toik.ec.visualization.VisualizationMessage;
 
 //TODO remove cross origin annotation
+/**
+ * HTTP endpoints definition.
+ * @author Dominik Jachas
+ */
 @CrossOrigin(origins = "*")
 @RestController
 public class HttpController {
@@ -24,17 +28,26 @@ public class HttpController {
 		return visualization.getType().getClass().getSimpleName();
 	}
 
+	/**
+	 * @return List of all strategy-approved messages.
+	 */
 	@RequestMapping("/messages")
 	public List<VisualizationMessage> getMessages() {
 		return visualization.getMessages();
 	}
 
+	/**
+	 * @return Current web-side configuration.
+	 */
 	@RequestMapping("/config")
 	public ConfigEndpoint getConfig() {
 		return new ConfigEndpoint(visualization.getType().getClass().getSimpleName(),
 				visualization.getType().equals(SelectionType.MAXIMUM));
 	}
 
+	/**
+	 * helper class for {@link getConfig()} method
+	 */
 	public class ConfigEndpoint {
 		public final String type;
 		public final Boolean biggerFitnessIsBetter;
