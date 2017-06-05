@@ -18,7 +18,8 @@ public abstract class CrossoverStrategy implements AlgorithmStep {
         if(population == null)
             return;
         List<Individual> tmpPopulation = new LinkedList<Individual>(population);
-        for(int i = 0 ; i < (population.size() * birthRatio) ; i++){
+        double desiredPopulationSize = population.size() * birthRatio;
+        for(int i = 0 ; i < desiredPopulationSize && tmpPopulation.size() >= 2 ; i++){
             Individual parent1 = tmpPopulation.remove(random.nextInt(tmpPopulation.size()));
             Individual parent2 = tmpPopulation.remove(random.nextInt(tmpPopulation.size()));
             assert parent1 != null && parent2 != null : "Crossover parent cannot be null";
