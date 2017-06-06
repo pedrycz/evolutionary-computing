@@ -56,9 +56,7 @@
 
     <bean id="visualization" class="pl.edu.agh.toik.ec.visualization.VisualizationImpl">
         <constructor-arg index="0">
-            <bean class="pl.edu.agh.toik.ec.visualization.strategy.SkippingStrategy">
-            	<constructor-arg index="0" type="long" value="10"/>
-            </bean>
+            <bean class="pl.edu.agh.toik.ec.visualization.strategy.AllStrategy" />
         </constructor-arg>
         <constructor-arg index="1">
             <bean class="pl.edu.agh.toik.ec.visualization.type.LogType"/>
