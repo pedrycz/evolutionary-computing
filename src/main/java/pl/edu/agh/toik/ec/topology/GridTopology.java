@@ -14,6 +14,10 @@ public class GridTopology extends AbstractTopology implements Topology {
     private int sizeB;
 
     public GridTopology(List<String> actorsNames) {
+
+        if(actorsNames.size() < 12 && actorsNames.size() != 9)
+            throw new RuntimeException("It is impossible to create Grid Topology with less then 12 elements (except is 9)");
+
         this.topology = getEmptyTopology(actorsNames);
 
         this.topologySize = actorsNames.size();

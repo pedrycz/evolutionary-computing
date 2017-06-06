@@ -1,20 +1,22 @@
 package pl.edu.agh.toik.ec.algorithm;
 
+import org.apfloat.Apcomplex;
+import org.apfloat.ApcomplexMath;
+import org.apfloat.Apfloat;
+import pl.edu.agh.toik.ec.algorithm.diversity.DiversityCalculator;
 import pl.edu.agh.toik.ec.algorithm.generation.PopulationGenerationStrategy;
 import pl.edu.agh.toik.ec.communication.Message;
 import pl.edu.agh.toik.ec.workers.SimpleMessage;
 import pl.edu.agh.toik.ec.workers.Worker;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.DoubleStream;
 
 public class AgentImpl implements Agent {
 
-    private List<Individual> population;
+    List<Individual> population;
     private LinkedList<AlgorithmStep> algorithmSteps = new LinkedList<>();
 
     private LinkedList<Message> incomingMessages = new LinkedList<>();
@@ -59,7 +61,7 @@ public class AgentImpl implements Agent {
             step.process(this, population);
         calculatePopulationDiversity();
         calculateBestFitnessProperty();
-        calculateWorstFitnessProperty();
+		calculateWorstFitnessProperty();
         flushOutgoingMessages();
     }
 
@@ -74,15 +76,15 @@ public class AgentImpl implements Agent {
         DoubleStream populationFitnessStream = population.stream().mapToDouble(INDIVIDUAL_TO_FITNESS_FUNCTION);
         bestFitnessProperty.setValue(populationFitnessStream.max().orElseGet(null));
     }
-    
-    private void calculateWorstFitnessProperty() {
+
+	 private void calculateWorstFitnessProperty() {
         DoubleStream populationFitnessStream = population.stream().mapToDouble(INDIVIDUAL_TO_FITNESS_FUNCTION);
         worstFitnessProperty.setValue(populationFitnessStream.min().orElseGet(null));
     }
-
-    private void calculatePopulationDiversity() {
-        // TODO Auto-generated method stub
-
+	
+    double calculatePopulationDiversity() {
+        DiversityCalculator diversityCalculator = new DiversityCalculator(population, populationSize, populationDimension);
+        return diversityCalculator.calculatePopulationDiversity();
     }
 
     @Override
