@@ -1,5 +1,6 @@
 package pl.edu.agh.toik.ec.starter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,11 @@ public class SimpleStarter implements Starter {
 
         Topology topology = topologyService.getTopology(configuration.getNamingService().getAgentsIds());
         configuration = configuration.withTopology(topology);
+        try {
+            int read = System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         List<Worker> workers = new ArrayList<>();
         for(int i = 0; i < stopConditionList.size(); i++) {
