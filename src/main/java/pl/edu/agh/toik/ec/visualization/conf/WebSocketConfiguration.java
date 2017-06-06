@@ -6,6 +6,13 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
+/**
+ * WebSocket configuration. Contains config for Spring-side broker and Stomp
+ * over SockJS web client side interface's basis.
+ * 
+ * @author Joe Armstrong
+ *
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
