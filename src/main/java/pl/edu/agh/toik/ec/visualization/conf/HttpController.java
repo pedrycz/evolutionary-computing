@@ -42,7 +42,7 @@ public class HttpController {
 	@RequestMapping("/config")
 	public ConfigEndpoint getConfig() {
 		return new ConfigEndpoint(visualization.getType().getClass().getSimpleName(),
-				visualization.getType().equals(SelectionType.MAXIMUM));
+				visualization.getSelectionType().equals(SelectionType.MAXIMUM));
 	}
 
 	/**
