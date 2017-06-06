@@ -28,7 +28,7 @@ public class VisualizationMessage {
 																			// parametrized
 																			// casting
 			m.timestamp = propertyMessage.getTimeStamp().getTime();
-			// TODO if possible user sender field for m.workerId
+			m.workerId = propertyMessage.getSender();
 			try {
 				m.fitness = (Double) propertyMessage.getValue();
 			} catch (ClassCastException e) {
