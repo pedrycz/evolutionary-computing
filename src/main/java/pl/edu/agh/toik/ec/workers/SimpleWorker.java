@@ -2,12 +2,14 @@ package pl.edu.agh.toik.ec.workers;
 
 import pl.edu.agh.toik.ec.algorithm.Agent;
 import pl.edu.agh.toik.ec.communication.CommunicationService;
+import pl.edu.agh.toik.ec.communication.Message;
+import pl.edu.agh.toik.ec.communication.ReceiverInterface;
 import pl.edu.agh.toik.ec.configuration.Configuration;
 import pl.edu.agh.toik.ec.namingservice.NamingService;
 
 import java.util.HashMap;
 
-public class SimpleWorker implements Worker {
+public class SimpleWorker implements Worker, ReceiverInterface {
 
     private String name;
     private StopCondition stopCondition;
@@ -23,6 +25,7 @@ public class SimpleWorker implements Worker {
         this.stopCondition = stopCondition;
         this.communicationService = configuration.getCommunicationService();
         this.namingService = configuration.getNamingService();
+
 
         this.agentFactory = new AgentFactory(configuration, this);
     }
@@ -85,4 +88,8 @@ public class SimpleWorker implements Worker {
         return this.name;
     }
 
+    @Override
+    public void notify(Message message) {
+        sendMessage((SimpleMessage) message);
+    }
 }
