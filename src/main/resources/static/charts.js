@@ -2,23 +2,13 @@ var bestFitness = 0.0;
 var bestSerie;
 var workerSeries = [];
 var bestOfAllPoints = [];
+var biggerFitnessIsBetter = true;
 
-var visualizations = ["chartAllInTime", "chartBestInTime", "chartBestOfAll", "tableOutput", "ws-output"];
+var visualizations = ["chartAllInTime", "chartBestInTime", "chartBestOfAll",
+    // "tableOutput",
+    "ws-output"];
 
-function addPointToCharts(workerId, xVal, value) {
-    var point = {
-        category: workerId,
-        x: xVal,
-        y: value
-    };
-
-    // best in time
-    if(value > bestFitness) {
-        chartBestInTime.series[0].addPoint(point);
-        bestFitness = value;
-    }
-
-    // all in time
+function checkWorkerSeries(workerId) {
     if (workerSeries[workerId] === undefined) {
         workerSeries[workerId] = chartAllInTime.addSeries({
             name: "Worker " + workerId,
@@ -29,6 +19,60 @@ function addPointToCharts(workerId, xVal, value) {
             }
         });
     }
+}
+
+function setInitialPointsToCharts(points) {
+    // messages[i].workerId, messages[i].timestamp, messages[i].fitness)
+    var dataBestInTime = [];
+    var dataAllInTime = [];
+    var dataBestOfAll = [];
+
+    for (var i = 0; i < points.length; i++) {
+        var point = {
+            category: points[i].workerId,
+            x: points[i].timestamp,
+            y: points[i].fitness
+        };
+
+        // best in time
+        if ((biggerFitnessIsBetter && point.y > bestFitness) || (!biggerFitnessIsBetter && point.y < bestFitness)) {
+            dataBestInTime.push(point);
+            bestFitness = point.y;
+        }
+
+        // all in time
+        checkWorkerSeries(point.category);
+
+        if (dataAllInTime[point.category] === undefined) {
+            dataAllInTime[point.category] = [];
+        }
+
+        dataAllInTime[point.category].push(point);
+    }
+
+    chartBestInTime.series[0].setData(dataBestInTime);
+
+    for (var series in dataAllInTime) {
+        workerSeries[series].setData(dataAllInTime[series]);
+    }
+
+}
+
+function addPointToCharts(workerId, xVal, value) {
+    var point = {
+        category: workerId,
+        x: xVal,
+        y: value
+    };
+
+    // best in time
+    if ((biggerFitnessIsBetter && value > bestFitness) || (!biggerFitnessIsBetter && value < bestFitness)) {
+        chartBestInTime.series[0].addPoint(point);
+        bestFitness = value;
+    }
+
+    // all in time
+    checkWorkerSeries(workerId);
 
     workerSeries[workerId].addPoint(point, true, false);
 
@@ -47,22 +91,21 @@ function addPointToCharts(workerId, xVal, value) {
     }
 
     // table
-    var date = new Date(xVal);
-    console.log(date);
-
-    var table = document.getElementById("tableOutput");
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    cell1.innerHTML = "Worker " + workerId;
-    cell2.innerHTML = date.getDay() + '.' +
-        date.getMonth() + '.' +
-        date.getFullYear() + ' ' +
-        date.getHours() + ':' +
-        date.getMinutes() + ':' +
-        date.getSeconds();
-    cell3.innerHTML = value;
+    // var date = new Date(xVal);
+    //
+    // var table = document.getElementById("tableOutput");
+    // var row = table.insertRow(-1);
+    // var cell1 = row.insertCell(0);
+    // var cell2 = row.insertCell(1);
+    // var cell3 = row.insertCell(2);
+    // cell1.innerHTML = "Worker " + workerId;
+    // cell2.innerHTML = date.getDay() + '.' +
+    //     date.getMonth() + '.' +
+    //     date.getFullYear() + ' ' +
+    //     date.getHours() + ':' +
+    //     date.getMinutes() + ':' +
+    //     date.getSeconds();
+    // cell3.innerHTML = value;
 }
 
 Highcharts.setOptions({
