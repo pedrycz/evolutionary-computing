@@ -47,6 +47,7 @@ public class AgentFactory {
             agentImpl.addStep(step);
         }
         agentImpl.setWorker(worker);
+        agentImpl.setName(name);
 
         //AgentProperty config
         agentImpl.setBestFitnessProperty(createAgentProperty(agentImpl, AgentParameter.BEST_FITNESS));
