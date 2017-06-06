@@ -2,6 +2,7 @@ var bestFitness = 0.0;
 var bestSerie;
 var workerSeries = [];
 var bestOfAllPoints = [];
+var biggerFitnessIsBetter = true;
 
 var visualizations = ["chartAllInTime", "chartBestInTime", "chartBestOfAll", "tableOutput", "ws-output"];
 
@@ -13,10 +14,18 @@ function addPointToCharts(workerId, xVal, value) {
     };
 
     // best in time
-    if(value > bestFitness) {
-        chartBestInTime.series[0].addPoint(point);
-        bestFitness = value;
+    if (biggerFitnessIsBetter) {
+        if(value > bestFitness) {
+            chartBestInTime.series[0].addPoint(point);
+            bestFitness = value;
+        }
+    } else {
+        if(value < bestFitness) {
+            chartBestInTime.series[0].addPoint(point);
+            bestFitness = value;
+        }
     }
+
 
     // all in time
     if (workerSeries[workerId] === undefined) {

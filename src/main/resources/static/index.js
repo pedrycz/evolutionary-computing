@@ -54,13 +54,23 @@
         ajax(function (xhr) {
             var config = JSON.parse(xhr.response);
             setConfigLogType(config.type);
+            if (config.biggerFitnessIsBetter) {
+                bestFitness = Number.MIN_VALUE;
+                biggerFitnessIsBetter = config.biggerFitnessIsBetter;
+            } else {
+                bestFitness = Number.MIN_VALUE;
+                biggerFitnessIsBetter = config.biggerFitnessIsBetter;
+            }
         }, 'http://localhost:8080/config');
 
         ajax(function (xhr) {
             var messages = JSON.parse(xhr.response);
-            for (var i = 0; i< messages.length; i++) {
-                addPointToCharts(messages[i].workerId, messages[i].timestamp, messages[i].fitness)
-            }
+            console.log(messages.length);
+            setTimeout(function () {
+                for (var i = 0; i< messages.length; i++) {
+                    addPointToCharts(messages[i].workerId, messages[i].timestamp, messages[i].fitness)
+                }
+            }, 1000);
         }, 'http://localhost:8080/messages');
 
         fetch.addEventListener('click', function () {
@@ -74,6 +84,7 @@
         (function () {
             var socket = new SockJS('/websocket');
             var client = Stomp.over(socket);
+            client.debug = null;
             client.connect({}, function (frame) {
                 console.log("Connected to server");
                 console.log(frame);
