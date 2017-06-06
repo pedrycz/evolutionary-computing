@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <title>Visualization</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="/index.css" rel="stylesheet" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="/index.css" rel="stylesheet"/>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-  </head>
-  <body>
-    <div id="fetch" class="button">Fetch</div>
-    <div id="output"></div>
-    <div class="ws-dashboard">
-      <div class="label">Time:</div>
-      <div id="ws-time"></div>
-      <div class="label">Fitness:</div>
-      <div id="ws-value"></div>
-    </div>
-    <div id="ws-output"></div>
-    <script src="/index.js"></script>
-  </body>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/modules/no-data-to-display.js"></script>
+
+
+</head>
+<body>
+<div id="fetch" class="button">Fetch</div>
+<div id="output"></div>
+<div>
+    <button id="buttonAllInTime">All in time</button>
+    <button id="buttonBestInTime">Best in time</button>
+    <button id="buttonBestOfAll">Best of all</button>
+    <button id="buttonTable">Table</button>
+    <button id="buttonLogs">Pure logs</button>
+</div>
+<div id="chartAllInTime"></div>
+<div id="chartBestInTime" style="display: none;"></div>
+<div id="chartBestOfAll" style="display: none;"></div>
+<table id="tableOutput" class="ws-dashboard">
+    <tr>
+        <th class="label">Worker:</th>
+        <th class="label">Time:</th>
+        <th class="label">Fitness:</th>
+    </tr>
+</table>
+<div id="ws-output"></div>
+<script src="/charts.js"></script>
+<script src="/chartAllInTime.js"></script>
+<script src="/chartBestInTime.js"></script>
+<script src="/chartBestOfAll.js"></script>
+<script src="/index.js"></script>
+</body>
 </html>
