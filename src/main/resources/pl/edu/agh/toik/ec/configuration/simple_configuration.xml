@@ -112,6 +112,7 @@
                     <property name = "parameterMax" value = "0.001"/>
                     <property name = "parameterMin" value = "-0.001"/>
                 </bean>
+                <bean class="pl.edu.agh.toik.ec.migration.ImigrateIndividuals"/>
                 <bean class="pl.edu.agh.toik.ec.algorithm.constraint.BasicConstraintStrategy">
                     <property name = "parameterMax" value = "5.12"/>
                     <property name = "parameterMin" value = "-5.12"/>
@@ -120,6 +121,9 @@
                 </bean>
                 <bean class="pl.edu.agh.toik.ec.algorithm.selection.ElitistSelectionStrategy">
                     <property name = "selectionType" value = "MINIMUM"/>
+                </bean>
+                <bean class="pl.edu.agh.toik.ec.migration.EmigrationIndividuals">
+                    <constructor-arg index="0" ref="migration"/>
                 </bean>
             </list>
         </constructor-arg>
@@ -139,6 +143,9 @@
     <bean id="starter" class="pl.edu.agh.toik.ec.starter.SimpleStarter">
         <constructor-arg index="0">
             <list>
+                <bean class="pl.edu.agh.toik.ec.workers.IterationCondition">
+                    <constructor-arg type="int" value="100"/>
+                </bean>
                 <bean class="pl.edu.agh.toik.ec.workers.IterationCondition">
                     <constructor-arg type="int" value="100"/>
                 </bean>
