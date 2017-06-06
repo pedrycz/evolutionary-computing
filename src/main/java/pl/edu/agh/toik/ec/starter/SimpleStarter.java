@@ -53,6 +53,7 @@ public class SimpleStarter implements Starter {
         for(int i = 0; i < stopConditionList.size(); i++) {
             StopCondition stopCondition = stopConditionList.get(i);
             SimpleWorker worker = new SimpleWorker(configuration.getNamingService().getWorkerId(i), stopCondition, configuration);
+            configuration.getCommunicationService().registerReceiver(worker.getWorkerName(), worker);
             worker.createAgents(agentPerWorker);
             workers.add(worker);
         }

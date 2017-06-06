@@ -26,7 +26,11 @@ public class EmigrationIndividuals implements EmigrationService {
     private List<MigrationMessage> createMessages(List<Individual> individuals){
         List<MigrationMessage> migrationMessages = new ArrayList<MigrationMessage>();
         for(String receiverAgent : agent.getNeighbours()){
-            migrationMessages.add(new MigrationMessage(agent.getName(), receiverAgent, individuals, new Date()));
+            String[] splited = receiverAgent.split(":");
+            String workerName = splited[0] + ":" + splited[1];
+            MigrationMessage migrationMessage = new MigrationMessage(agent.getName(), receiverAgent, individuals, new Date());
+            migrationMessage.setTargetWorkerName(workerName);
+            migrationMessages.add(migrationMessage);
         }
         return  migrationMessages;
     }

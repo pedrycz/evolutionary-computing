@@ -122,7 +122,7 @@ public class AgentImpl implements Agent {
 
     @Override
     public List<Message> getIncomingMessages() {
-        return Collections.unmodifiableList(incomingMessages);
+        return new ArrayList<>(incomingMessages);
     }
 
     @Override
