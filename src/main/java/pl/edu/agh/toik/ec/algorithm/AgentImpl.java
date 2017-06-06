@@ -59,7 +59,7 @@ public class AgentImpl implements Agent {
         assert initialized : "Agent has to be initialized first";
         for (AlgorithmStep step : algorithmSteps)
             step.process(this, population);
-        calculatePopulationDiversity();
+        //calculatePopulationDiversity();
         calculateBestFitnessProperty();
 		calculateWorstFitnessProperty();
         flushOutgoingMessages();
