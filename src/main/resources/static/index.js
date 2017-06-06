@@ -56,6 +56,13 @@
             setConfigLogType(config.type);
         }, 'http://localhost:8080/config');
 
+        ajax(function (xhr) {
+            var messages = JSON.parse(xhr.response);
+            for (var i = 0; i< messages.length; i++) {
+                addPointToCharts(messages[i].workerId, messages[i].timestamp, messages[i].fitness)
+            }
+        }, 'http://localhost:8080/messages');
+
         fetch.addEventListener('click', function () {
             ajax(function (xhr) {
                 output.innerHTML = xhr.response;

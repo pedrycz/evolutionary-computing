@@ -48,7 +48,6 @@ function addPointToCharts(workerId, xVal, value) {
 
     // table
     var date = new Date(xVal);
-    console.log(date);
 
     var table = document.getElementById("tableOutput");
     var row = table.insertRow(-1);
