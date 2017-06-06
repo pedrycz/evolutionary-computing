@@ -59,7 +59,7 @@
             <bean class="pl.edu.agh.toik.ec.visualization.strategy.AllStrategy" />
         </constructor-arg>
         <constructor-arg index="1">
-            <bean class="pl.edu.agh.toik.ec.visualization.type.LogType"/>
+            <bean class="pl.edu.agh.toik.ec.visualization.type.ChartBestInTimeType"/>
         </constructor-arg>
         <constructor-arg index="2" value="MINIMUM" />
     </bean>

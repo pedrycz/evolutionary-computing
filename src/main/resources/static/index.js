@@ -34,13 +34,13 @@
     }
 
     function setConfigLogType(name) {
-        if (name === "AllInTime")
+        if (name === "ChartAllInTimeType")
             changeVisualization("chartAllInTime");
-        else if (name === "BestInTime")
+        else if (name === "ChartBestInTimeType")
             changeVisualization("chartBestInTime");
-        else if (name === "BestOfAll")
+        else if (name === "ChartBestOfAllType")
             changeVisualization("chartBestOfAll");
-        else if (name === "Table")
+        else if (name === "TableType")
             changeVisualization("tableOutput");
         else if (name === "LogType")
             changeVisualization("ws-output");
