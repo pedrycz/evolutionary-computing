@@ -28,7 +28,7 @@
 
     function changeVisualization(name) {
         console.log("change vis " + name);
-        for (var i = 0; i<visualizations.length; i++) {
+        for (var i = 0; i < visualizations.length; i++) {
             document.getElementById(visualizations[i]).style.display = (visualizations[i] === name ? "" : "none");
         }
     }
@@ -46,6 +46,39 @@
             changeVisualization("ws-output");
     }
 
+    function subscribeForNewData() {
+        var socket = new SockJS('/websocket');
+        var client = Stomp.over(socket);
+        // var wsOutput = document.getElementById('ws-output');
+        client.debug = null;
+        client.connect({}, function (frame) {
+            console.log("Connected to server");
+            console.log(frame);
+            client.subscribe('/fitness', function (msg) {
+                // console.log("Received from server");
+                var info = JSON.parse(msg.body);
+                // console.log(info);
+                addPointToCharts(info.workerId, info.timestamp, info.fitness);
+
+                // wsOutput.innerHTML = msg.body + '<br />' + wsOutput.innerHTML;
+            });
+        });
+    }
+
+    function setInitialData() {
+        ajax(function (xhr) {
+            var messages = JSON.parse(xhr.response);
+            console.log(messages.length);
+
+            setInitialPointsToCharts(messages);
+            // console.log("dupa");
+            // for (var i = 0; i < messages.length; i++) {
+            //     addPointToCharts(messages[i].workerId, messages[i].timestamp, messages[i].fitness)
+            // }
+
+            subscribeForNewData();
+        }, 'http://localhost:8080/messages');
+    }
 
     window.addEventListener('load', function () {
         var fetch = document.getElementById('fetch');
@@ -54,24 +87,15 @@
         ajax(function (xhr) {
             var config = JSON.parse(xhr.response);
             setConfigLogType(config.type);
-            if (config.biggerFitnessIsBetter) {
-                bestFitness = Number.MIN_VALUE;
-                biggerFitnessIsBetter = config.biggerFitnessIsBetter;
-            } else {
-                bestFitness = Number.MIN_VALUE;
-                biggerFitnessIsBetter = config.biggerFitnessIsBetter;
-            }
-        }, 'http://localhost:8080/config');
+            biggerFitnessIsBetter = config.biggerFitnessIsBetter;
+            bestFitness = biggerFitnessIsBetter ? Number.MIN_VALUE : Number.MAX_VALUE;
+            console.log("bigger fitness is better: " + biggerFitnessIsBetter);
+            console.log("best fitness: " + bestFitness);
+            console.log("best fitness > 0 " + (bestFitness > 0));
+            console.log("best fitness < 0 " + (bestFitness < 0));
 
-        ajax(function (xhr) {
-            var messages = JSON.parse(xhr.response);
-            console.log(messages.length);
-            setTimeout(function () {
-                for (var i = 0; i< messages.length; i++) {
-                    addPointToCharts(messages[i].workerId, messages[i].timestamp, messages[i].fitness)
-                }
-            }, 1000);
-        }, 'http://localhost:8080/messages');
+            setInitialData();
+        }, 'http://localhost:8080/config');
 
         fetch.addEventListener('click', function () {
             ajax(function (xhr) {
@@ -79,43 +103,21 @@
             }, 'http://127.0.0.1:8080/type');
         });
 
-        var wsOutput = document.getElementById('ws-output');
-
-        (function () {
-            var socket = new SockJS('/websocket');
-            var client = Stomp.over(socket);
-            client.debug = null;
-            client.connect({}, function (frame) {
-                console.log("Connected to server");
-                console.log(frame);
-                client.subscribe('/fitness', function (msg) {
-                    // console.log("Received from server");
-                    var info = JSON.parse(msg.body);
-                    // console.log(info);
-                    addPointToCharts(info.workerId, info.timestamp, info.fitness);
-
-                    wsOutput.innerHTML = msg.body + '<br />' + wsOutput.innerHTML;
-                });
-            });
-        })();
-
-
-        document.getElementById("buttonAllInTime").addEventListener("click", function() {
+        document.getElementById("buttonAllInTime").addEventListener("click", function () {
             changeVisualization("chartAllInTime");
         });
-        document.getElementById("buttonBestInTime").addEventListener("click", function() {
+        document.getElementById("buttonBestInTime").addEventListener("click", function () {
             changeVisualization("chartBestInTime");
         });
-        document.getElementById("buttonBestOfAll").addEventListener("click", function() {
+        document.getElementById("buttonBestOfAll").addEventListener("click", function () {
             changeVisualization("chartBestOfAll");
         });
-        document.getElementById("buttonTable").addEventListener("click", function() {
-            changeVisualization("tableOutput");
-        });
-        document.getElementById("buttonLogs").addEventListener("click", function() {
+        // document.getElementById("buttonTable").addEventListener("click", function() {
+        //     changeVisualization("tableOutput");
+        // });
+        document.getElementById("buttonLogs").addEventListener("click", function () {
             changeVisualization("ws-output");
         });
     });
-
 
 })();
