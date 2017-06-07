@@ -1,47 +1,49 @@
 /**
  * Created by huber on 30.05.2017.
  */
+function setupChartBestInTime(data) {
+    chartBestInTime = Highcharts.stockChart('chartBestInTime', {
 
-var chartBestInTime = Highcharts.stockChart('chartBestInTime', {
+        rangeSelector: chartSettings.rangeSelector,
 
-    rangeSelector: chartSettings.rangeSelector,
-
-    title: {
-        text: 'Best Fitness In Time'
-    },
-
-    plotOptions: {
-        line: {
-            enableMouseTracking: false
+        title: {
+            text: 'Best Fitness In Time'
         },
 
-        series:{
-            pointInterval: 86400000
-        }
-    },
+        plotOptions: {
+            line: {
+                enableMouseTracking: false
+            },
 
-    legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle',
-        borderWidth: 0
-    },
-
-    series: [{
-        name: 'best',
-        data: [],
-        marker: {
-            enabled: true,
-            radius: 4
-        },
-        tooltip: {
-            valueDecimals: 2
-        },
-        states: {
-            hover: {
-                lineWidthPlus: 0
+            series:{
+                pointInterval: 86400000
             }
-        }
-    }]
+        },
 
-});
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+
+        series: [{
+            name: 'best',
+            data: data,
+            marker: {
+                enabled: true,
+                radius: 4
+            },
+            tooltip: {
+                valueDecimals: 2
+            },
+            states: {
+                hover: {
+                    lineWidthPlus: 0
+                }
+            }
+        }]
+
+    });
+
+}

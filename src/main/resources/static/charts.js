@@ -4,21 +4,27 @@ var workerSeries = [];
 var bestOfAllPoints = [];
 var biggerFitnessIsBetter = true;
 
-var visualizations = ["chartAllInTime", "chartBestInTime", "chartBestOfAll",
-    // "tableOutput",
-    "ws-output"];
+var visualizations = ["chartAllInTime", "chartBestInTime", "chartBestOfAll", "tableOutput", "ws-output"];
 
-function checkWorkerSeries(workerId) {
+function checkWorkerSeries(workerId, data) {
+    console.log("checkWorkerSeries");
+    console.log("workerID: " + workerId);
+    console.log(data);
+    var dat = (data === undefined) ? [] : data;
     if (workerSeries[workerId] === undefined) {
         workerSeries[workerId] = chartAllInTime.addSeries({
             name: "Worker " + workerId,
-            data: [],
+            data: dat,
             marker: {
                 enabled: true,
                 radius: 3
             }
         });
     }
+    console.log("workerSeries[workerId]");
+    console.log(workerSeries[workerId]);
+    console.log("chartAllInTime.series");
+    console.log(chartAllInTime.series);
 }
 
 function setInitialPointsToCharts(points) {
@@ -41,7 +47,7 @@ function setInitialPointsToCharts(points) {
         }
 
         // all in time
-        checkWorkerSeries(point.category);
+        // checkWorkerSeries(point.category);
 
         if (dataAllInTime[point.category] === undefined) {
             dataAllInTime[point.category] = [];
@@ -50,12 +56,27 @@ function setInitialPointsToCharts(points) {
         dataAllInTime[point.category].push(point);
     }
 
-    chartBestInTime.series[0].setData(dataBestInTime);
+    // best in time
+    setupChartBestInTime(dataBestInTime);
 
-    for (var series in dataAllInTime) {
-        workerSeries[series].setData(dataAllInTime[series]);
+    // all in time
+    var series = [];
+
+    for (var serie in dataAllInTime) {
+        var s = {
+            name: serie,
+            data: dataAllInTime[serie],
+            marker: {
+                enabled: true,
+                radius: 3
+            }
+        };
+        series.push(s);
     }
-
+    setupChartAllInTime(series);
+    for (var serieNum in chartAllInTime.series) {
+        workerSeries[chartAllInTime.series[serieNum].name] = chartAllInTime.series[serieNum];
+    }
 }
 
 function addPointToCharts(workerId, xVal, value) {
@@ -93,19 +114,6 @@ function addPointToCharts(workerId, xVal, value) {
     // table
     // var date = new Date(xVal);
     //
-    // var table = document.getElementById("tableOutput");
-    // var row = table.insertRow(-1);
-    // var cell1 = row.insertCell(0);
-    // var cell2 = row.insertCell(1);
-    // var cell3 = row.insertCell(2);
-    // cell1.innerHTML = "Worker " + workerId;
-    // cell2.innerHTML = date.getDay() + '.' +
-    //     date.getMonth() + '.' +
-    //     date.getFullYear() + ' ' +
-    //     date.getHours() + ':' +
-    //     date.getMinutes() + ':' +
-    //     date.getSeconds();
-    // cell3.innerHTML = value;
 }
 
 Highcharts.setOptions({

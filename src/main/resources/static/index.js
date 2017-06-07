@@ -1,3 +1,7 @@
+var chartAllInTime;
+var chartBestInTime;
+var chartBestOfAll;
+
 (function () {
     function log(whatever) {
         console.log(whatever);
@@ -34,13 +38,13 @@
     }
 
     function setConfigLogType(name) {
-        if (name === "AllInTime")
+        if (name === "ChartAllInTimeType")
             changeVisualization("chartAllInTime");
-        else if (name === "BestInTime")
+        else if (name === "ChartBestInTimeType")
             changeVisualization("chartBestInTime");
-        else if (name === "BestOfAll")
+        else if (name === "ChartBestOfAllType")
             changeVisualization("chartBestOfAll");
-        else if (name === "Table")
+        else if (name === "TableType")
             changeVisualization("tableOutput");
         else if (name === "LogType")
             changeVisualization("ws-output");
@@ -80,6 +84,10 @@
         }, 'http://localhost:8080/messages');
     }
 
+    $(document).ready( function () {
+        $('#tableOutput').DataTable();
+    } );
+
     window.addEventListener('load', function () {
         var fetch = document.getElementById('fetch');
         var output = document.getElementById('output');
@@ -112,9 +120,9 @@
         document.getElementById("buttonBestOfAll").addEventListener("click", function () {
             changeVisualization("chartBestOfAll");
         });
-        // document.getElementById("buttonTable").addEventListener("click", function() {
-        //     changeVisualization("tableOutput");
-        // });
+        document.getElementById("buttonTable").addEventListener("click", function() {
+            changeVisualization("tableOutput");
+        });
         document.getElementById("buttonLogs").addEventListener("click", function () {
             changeVisualization("ws-output");
         });
