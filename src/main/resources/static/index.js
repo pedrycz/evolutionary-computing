@@ -1,3 +1,7 @@
+var chartAllInTime;
+var chartBestInTime;
+var chartBestOfAll;
+
 (function () {
     function log(whatever) {
         console.log(whatever);
@@ -80,6 +84,10 @@
         }, 'http://localhost:8080/messages');
     }
 
+    $(document).ready( function () {
+        $('#tableOutput').DataTable();
+    } );
+
     window.addEventListener('load', function () {
         var fetch = document.getElementById('fetch');
         var output = document.getElementById('output');
@@ -112,9 +120,9 @@
         document.getElementById("buttonBestOfAll").addEventListener("click", function () {
             changeVisualization("chartBestOfAll");
         });
-        // document.getElementById("buttonTable").addEventListener("click", function() {
-        //     changeVisualization("tableOutput");
-        // });
+        document.getElementById("buttonTable").addEventListener("click", function() {
+            changeVisualization("tableOutput");
+        });
         document.getElementById("buttonLogs").addEventListener("click", function () {
             changeVisualization("ws-output");
         });
