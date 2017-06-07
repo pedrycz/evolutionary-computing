@@ -4,12 +4,22 @@ var workerSeries = [];
 var bestOfAllPoints = [];
 var biggerFitnessIsBetter = true;
 
-var visualizations = ["chartAllInTime", "chartBestInTime", "chartBestOfAll", "tableOutput", "ws-output"];
+var visualizations = ["chartAllInTime", "chartBestInTime", "chartBestOfAll", "tableOutput_wrapper", "ws-output"];
+
+function formatDate(timestamp) {
+    var date = new Date(timestamp);
+    var s =
+        new Intl.NumberFormat("en", { minimumIntegerDigits: 2 }).format(date.getDay()) + "." +
+        new Intl.NumberFormat("en", { minimumIntegerDigits: 2 }).format(date.getMonth()) + "." +
+        date.getFullYear() + " " +
+        new Intl.NumberFormat("en", { minimumIntegerDigits: 2 }).format(date.getHours()) + ":" +
+        new Intl.NumberFormat("en", { minimumIntegerDigits: 2 }).format(date.getMinutes()) + ":" +
+        new Intl.NumberFormat("en", { minimumIntegerDigits: 2 }).format(date.getSeconds()) + "." +
+        new Intl.NumberFormat("pl-PL", { style: "decimal", minimumIntegerDigits: 3 }).format(date.getMilliseconds());
+    return s;
+}
 
 function checkWorkerSeries(workerId, data) {
-    console.log("checkWorkerSeries");
-    console.log("workerID: " + workerId);
-    console.log(data);
     var dat = (data === undefined) ? [] : data;
     if (workerSeries[workerId] === undefined) {
         workerSeries[workerId] = chartAllInTime.addSeries({
@@ -21,10 +31,6 @@ function checkWorkerSeries(workerId, data) {
             }
         });
     }
-    console.log("workerSeries[workerId]");
-    console.log(workerSeries[workerId]);
-    console.log("chartAllInTime.series");
-    console.log(chartAllInTime.series);
 }
 
 function setInitialPointsToCharts(points) {
@@ -32,6 +38,7 @@ function setInitialPointsToCharts(points) {
     var dataBestInTime = [];
     var dataAllInTime = [];
     var dataBestOfAll = [];
+    var dataForTable = [];
 
     for (var i = 0; i < points.length; i++) {
         var point = {
@@ -47,13 +54,17 @@ function setInitialPointsToCharts(points) {
         }
 
         // all in time
-        // checkWorkerSeries(point.category);
-
         if (dataAllInTime[point.category] === undefined) {
             dataAllInTime[point.category] = [];
         }
 
         dataAllInTime[point.category].push(point);
+
+        // table
+        dataForTable.push([
+            point.category,
+            formatDate(point.x),
+            point.y]);
     }
 
     // best in time
@@ -77,6 +88,10 @@ function setInitialPointsToCharts(points) {
     for (var serieNum in chartAllInTime.series) {
         workerSeries[chartAllInTime.series[serieNum].name] = chartAllInTime.series[serieNum];
     }
+
+    // table
+    dataTable.rows.add(dataForTable);
+    dataTable.columns.adjust().draw();
 }
 
 function addPointToCharts(workerId, xVal, value) {
@@ -112,8 +127,11 @@ function addPointToCharts(workerId, xVal, value) {
     }
 
     // table
-    // var date = new Date(xVal);
-    //
+    dataTable.row.add([
+        workerId,
+        formatDate(xVal),
+        value
+    ]);
 }
 
 Highcharts.setOptions({

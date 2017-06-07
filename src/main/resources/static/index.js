@@ -1,12 +1,9 @@
 var chartAllInTime;
 var chartBestInTime;
 var chartBestOfAll;
+var dataTable;
 
 (function () {
-    function log(whatever) {
-        console.log(whatever);
-    }
-
     function ajax(callback, path) {
         var xhr;
         if (window.ActiveXObject) {
@@ -25,13 +22,11 @@ var chartBestOfAll;
             }
         };
         xhr.open('GET', path, true);
-        //xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.send();
         return xhr;
     }
 
-    function changeVisualization(name) {
-        console.log("change vis " + name);
+    function changeVisualization(name, name2) {
         for (var i = 0; i < visualizations.length; i++) {
             document.getElementById(visualizations[i]).style.display = (visualizations[i] === name ? "" : "none");
         }
@@ -45,7 +40,7 @@ var chartBestOfAll;
         else if (name === "ChartBestOfAllType")
             changeVisualization("chartBestOfAll");
         else if (name === "TableType")
-            changeVisualization("tableOutput");
+            changeVisualization("tableOutput_wrapper");
         else if (name === "LogType")
             changeVisualization("ws-output");
     }
@@ -53,18 +48,12 @@ var chartBestOfAll;
     function subscribeForNewData() {
         var socket = new SockJS('/websocket');
         var client = Stomp.over(socket);
-        // var wsOutput = document.getElementById('ws-output');
         client.debug = null;
         client.connect({}, function (frame) {
             console.log("Connected to server");
-            console.log(frame);
             client.subscribe('/fitness', function (msg) {
-                // console.log("Received from server");
                 var info = JSON.parse(msg.body);
-                // console.log(info);
                 addPointToCharts(info.workerId, info.timestamp, info.fitness);
-
-                // wsOutput.innerHTML = msg.body + '<br />' + wsOutput.innerHTML;
             });
         });
     }
@@ -72,44 +61,23 @@ var chartBestOfAll;
     function setInitialData() {
         ajax(function (xhr) {
             var messages = JSON.parse(xhr.response);
-            console.log(messages.length);
-
             setInitialPointsToCharts(messages);
-            // console.log("dupa");
-            // for (var i = 0; i < messages.length; i++) {
-            //     addPointToCharts(messages[i].workerId, messages[i].timestamp, messages[i].fitness)
-            // }
 
             subscribeForNewData();
         }, 'http://localhost:8080/messages');
     }
 
     $(document).ready( function () {
-        $('#tableOutput').DataTable();
-    } );
-
-    window.addEventListener('load', function () {
-        var fetch = document.getElementById('fetch');
-        var output = document.getElementById('output');
+        dataTable = $('#tableOutput').DataTable();
 
         ajax(function (xhr) {
             var config = JSON.parse(xhr.response);
             setConfigLogType(config.type);
             biggerFitnessIsBetter = config.biggerFitnessIsBetter;
             bestFitness = biggerFitnessIsBetter ? Number.MIN_VALUE : Number.MAX_VALUE;
-            console.log("bigger fitness is better: " + biggerFitnessIsBetter);
-            console.log("best fitness: " + bestFitness);
-            console.log("best fitness > 0 " + (bestFitness > 0));
-            console.log("best fitness < 0 " + (bestFitness < 0));
 
             setInitialData();
         }, 'http://localhost:8080/config');
-
-        fetch.addEventListener('click', function () {
-            ajax(function (xhr) {
-                output.innerHTML = xhr.response;
-            }, 'http://127.0.0.1:8080/type');
-        });
 
         document.getElementById("buttonAllInTime").addEventListener("click", function () {
             changeVisualization("chartAllInTime");
@@ -121,7 +89,7 @@ var chartBestOfAll;
             changeVisualization("chartBestOfAll");
         });
         document.getElementById("buttonTable").addEventListener("click", function() {
-            changeVisualization("tableOutput");
+            changeVisualization("tableOutput_wrapper");
         });
         document.getElementById("buttonLogs").addEventListener("click", function () {
             changeVisualization("ws-output");
